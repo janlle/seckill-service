@@ -6,10 +6,10 @@ spring:
     port: 6379
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/boot?&useSSL=false
+    url: jdbc:mysql://localhost:3306/seckill?&useSSL=false
     username: root
     password: root
-  #thymeleaf
+#thymeleaf
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
@@ -28,9 +28,9 @@ spring:
     virtual-host: /cloud
 # mybatis
 mybatis:
-  type-aliases-package: com.andy.seckill.module
+  type-aliases-package: com.andy.seckill.domain
   configuration:
     map-underscore-to-camel-case: true
     default-fetch-size: 100
     default-statement-timeout: 3000
-  mapper-locations: classpath:mapper/*.xml
+  mapper-locations: classpath:mybatis/mappers/*.xml

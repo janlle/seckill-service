@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.*;
  * @since 2018-10-26
  **/
 @Mapper
-interface OrderMapper {
+public interface OrderMapper {
 	
 	@Select("select * from t_order where user_id=#{userId} and goods_id=#{goodsId}")
 	OrderVO findByUserIdAndOrderId(@Param("userId") long userId, @Param("goodsId") long goodsId);
