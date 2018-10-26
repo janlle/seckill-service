@@ -17,4 +17,7 @@ public interface UserMapper {
     @Select("select * from t_user where user_id = #{userId}")
     UserVO findUserById(@Param("userId") Long userId);
 
+    @Select("select * from t_user where account = #{account} and password = ${password}")
+    UserVO findUserByAccountAndPassword(@Param("account") String account, @Param("password") String password);
+
 }

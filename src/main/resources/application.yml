@@ -18,7 +18,7 @@ spring:
       content-type: text/html
     enabled: true
     encoding: UTF-8
-    mode: HTML5
+    mode: HTML
 #rabbitmq
   rabbitmq:
     host: localhost
