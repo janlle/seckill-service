@@ -17,12 +17,13 @@ import java.util.List;
 @Mapper
 public interface GoodsMapper {
 	
-	@Select("select * from t_goods")
+	@Select("select * from t_goods where status = 0")
 	List<GoodsVO> list();
 
+	@Select("select * from t_goods where status = 0 and goods_id = #{goodsId}")
 	GoodsVO findById(@Param("goodsId") Long goodsId);
 
 	@Update("update t_goods set stock_count = stock_count - 1 where goods_id = #{goodsId} and stock_count > 0")
-	int reduceStock(Long goodsId);
+	int reduceStock(@Param("goodsId") Long goodsId);
 
 }

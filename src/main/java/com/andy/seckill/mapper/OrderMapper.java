@@ -13,18 +13,22 @@ import org.apache.ibatis.annotations.*;
 public interface OrderMapper {
 	
 	@Select("select * from t_order where user_id=#{userId} and goods_id=#{goodsId}")
-	OrderVO findByUserIdAndOrderId(@Param("userId") long userId, @Param("goodsId") long goodsId);
+	OrderVO findByUserIdAndOrderId(@Param("userId") Long userId, @Param("goodsId") Long goodsId);
 
-	@Insert("insert into order_info(user_id, goods_id, goods_name, goods_count, goods_price, order_channel, status, create_date)values("
-			+ "#{userId}, #{goodsId}, #{goodsName}, #{goodsCount}, #{goodsPrice}, #{orderChannel},#{status},#{createDate} )")
-	@SelectKey(keyColumn="id", keyProperty="id", resultType=long.class, before=false, statement="select last_insert_id()")
-    Integer insert(OrderVO orderVO);
+    @Select("select * from t_order where order_id = #{orderId}")
+    OrderVO findOrderById(@Param("orderId") Long orderId);
+
+
+//	@Insert("insert into order_info(user_id, goods_id, goods_name, goods_count, goods_price, order_channel, status, create_date)values("
+//			+ "#{userId}, #{goodsId}, #{goodsName}, #{goodsCount}, #{goodsPrice}, #{orderChannel},#{status},#{createDate} )")
+//	@SelectKey(keyColumn="id", keyProperty="id", resultType=long.class, before=false, statement="select last_insert_id()")
+//    Integer insert(OrderVO orderVO);
 
 //	@Insert("insert into t_order(user_id, goods_id, order_id)values(#{userId}, #{goodsId}, #{orderId})")
 //	Integer insert(OrderVO orderVO);
 
-	@Select("select * from t_order where id = #{orderId}")
-    OrderVO findOrderById(@Param("orderId") Long orderId);
+
+
 
 	
 }
