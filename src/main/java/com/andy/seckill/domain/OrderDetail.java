@@ -1,20 +1,13 @@
 package com.andy.seckill.domain;
 
-import lombok.Data;
-
-import javax.persistence.*;
-
 /**
  * <p>
  *
  * @author Leone
  * @since 2018-10-26
  **/
-@Entity
 public class OrderDetail {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderDetailId;
 
     private Long goodsId;
