@@ -1,7 +1,11 @@
 package com.andy.seckill.controller;
 
+import com.andy.seckill.common.Response;
+import com.andy.seckill.service.GoodsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.annotation.Resource;
 
 /**
  * <p>
@@ -12,5 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/goods")
 public class GoodsController {
+
+    @Resource
+    private GoodsService goodsService;
+
+    public Response list() {
+        return Response.success(goodsService.list());
+    }
 
 }
