@@ -1,8 +1,7 @@
 package com.andy.seckill.service;
 
 import com.andy.seckill.mapper.GoodsMapper;
-import com.andy.seckill.mapper.UserMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.andy.seckill.vo.GoodsVO;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -27,7 +26,12 @@ public class GoodsService {
     private UserService userService;
 
 
-
+    /**
+     * @return
+     */
+    public List<GoodsVO> list() {
+        return goodsMapper.list();
+    }
 
 
 }
