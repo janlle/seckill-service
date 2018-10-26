@@ -15,7 +15,7 @@ import java.util.List;
  * @since 2018-10-26
  **/
 @Mapper
-interface GoodsMapper {
+public interface GoodsMapper {
 	
 	@Select("select * from t_goods")
 	List<GoodsVO> list();

@@ -2,6 +2,8 @@ package com.andy.seckill.service;
 
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+
 /**
  * <p>
  *
@@ -11,6 +13,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class OrderDetailService {
 
+    @Resource
+    private OrderService orderService;
 
+    @Resource
+    private UserService userService;
 
 }
