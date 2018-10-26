@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: seckill
+  redis:
+    host: localhost
+    port: 6379
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/boot?&useSSL=false
+    username: root
+    password: root
+  #thymeleaf
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
+    servlet:
+      content-type: text/html
+    enabled: true
+    encoding: UTF-8
+    mode: HTML5
+#rabbitmq
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: cloud
+    password: cloud
+    virtual-host: /cloud
+# mybatis
+mybatis:
+  type-aliases-package: com.andy.seckill.module
+  configuration:
+    map-underscore-to-camel-case: true
+    default-fetch-size: 100
+    default-statement-timeout: 3000
+  mapper-locations: classpath:mapper/*.xml
