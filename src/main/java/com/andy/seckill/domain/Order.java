@@ -1,8 +1,5 @@
 package com.andy.seckill.domain;
 
-import lombok.Data;
-
-import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -11,22 +8,19 @@ import java.util.Date;
  * @author Leone
  * @since 2018-10-26
  **/
-@Entity
 public class Order {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long orderId;
+    private Long orderId;
 
-	private Long userId;
+    private Long userId;
 
-	private Integer totalPrice;
+    private Integer totalPrice;
 
-	private Integer status;
+    private Integer status;
 
-	private Date createTime;
+    private Date createTime;
 
-	private Date payTime;
+    private Date payTime;
 
     public Long getOrderId() {
         return orderId;
