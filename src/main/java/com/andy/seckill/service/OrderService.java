@@ -16,6 +16,12 @@ public class OrderService {
     private OrderMapper orderMapper;
 
 
+    /**
+     * 创建订单
+     *
+     * @param orderAddVO
+     * @return
+     */
     public OrderVO createOrder(OrderAddVO orderAddVO) {
         Order order = new Order();
         Date date = new Date();
