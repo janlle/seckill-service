@@ -33,4 +33,13 @@ mybatis:
     map-underscore-to-camel-case: true
     default-fetch-size: 100
     default-statement-timeout: 3000
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    cache-enabled: true
+    lazy-loading-enabled: true
+    use-generated-keys: true
+
+
   mapper-locations: classpath:mybatis/mappers/*.xml
+
+# 如果在application中配置后xml就不用配置了
+#  config-location: classpath:mybatis/mybatis-config-xml
