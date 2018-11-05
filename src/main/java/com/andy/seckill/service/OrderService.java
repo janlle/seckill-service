@@ -1,10 +1,12 @@
 package com.andy.seckill.service;
 
 import com.andy.seckill.domain.Order;
+import com.andy.seckill.domain.User;
 import com.andy.seckill.mapper.OrderMapper;
 import com.andy.seckill.vo.OrderAddVO;
 import com.andy.seckill.vo.OrderDetailVO;
 import com.andy.seckill.vo.OrderVO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -16,6 +18,8 @@ public class OrderService {
     @Resource
     private OrderMapper orderMapper;
 
+    @Resource
+    private UserService userService;
 
     /**
      * 创建订单
@@ -43,9 +47,12 @@ public class OrderService {
      * @return
      */
     public OrderDetailVO findOne(Long orderId) {
+        OrderVO orderVO = orderMapper.findOne(orderId);
+        OrderDetailVO orderDetailVO = new OrderDetailVO();
+        BeanUtils.copyProperties(orderVO, orderDetailVO);
+        User user = userService.findOne(orderVO.getUserId());
 
-
-        return null;
+        return orderDetailVO;
     }
 
     /**

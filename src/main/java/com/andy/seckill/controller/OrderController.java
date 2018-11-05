@@ -1,6 +1,5 @@
 package com.andy.seckill.controller;
 
-import com.andy.seckill.common.Response;
 import com.andy.seckill.service.OrderService;
 import com.andy.seckill.service.UserService;
 import com.andy.seckill.vo.OrderDetailVO;
@@ -25,21 +24,12 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-//    @GetMapping("/detail")
-//    public Response<GoodsVO> info(Model model, @RequestParam("orderId") long orderId) {
-//    	Order order = orderService.getOrderById(orderId);
-//    	if(order == null) {
-//    		return Response.error("error");
-//    	}
-//    	long goodsId = order.getGoodsId();
-//    	GoodsVO goodsVO = goodsService.getGoodsVoByGoodsId(goodsId);
-//    	return Response.success(goodsVO);
-//    }
-
     @GetMapping("/detail")
-    public Response detail(Model model, @RequestParam("orderId") Long orderId) {
-        OrderDetailVO order = orderService.findOne(orderId);
-        return Response.success(null);
+    public String detail(Model model, @RequestParam("orderId") Long orderId) {
+        OrderDetailVO orderDetailVO = orderService.findOne(orderId);
+        model.addAttribute("orderDetail", orderDetailVO);
+        return "order_detail";
     }
+
 
 }

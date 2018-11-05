@@ -16,7 +16,7 @@ public interface OrderMapper {
 	OrderVO findByUserIdAndOrderId(@Param("userId") Long userId, @Param("goodsId") Long goodsId);
 
     @Select("select * from t_order where order_id = #{orderId}")
-    OrderVO findOrderById(@Param("orderId") Long orderId);
+    OrderVO findOne(@Param("orderId") Long orderId);
 
 
 //	@Insert("insert into order_info(user_id, goods_id, goods_name, goods_count, goods_price, order_channel, status, create_date)values("
