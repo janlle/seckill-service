@@ -2,11 +2,11 @@ spring:
   application:
     name: seckill
   redis:
-    host: localhost
+    host: 127.0.0.1
     port: 6379
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/seckill?&useSSL=false
+    url: jdbc:mysql://127.0.0.1:3306/seckill?&useSSL=false
     username: root
     password: root
 #thymeleaf
@@ -21,7 +21,7 @@ spring:
     mode: HTML
 #rabbitmq
   rabbitmq:
-    host: localhost
+    host: 127.0.0.1
     port: 5672
     username: cloud
     password: cloud
