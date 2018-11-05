@@ -1,8 +1,12 @@
 package com.andy.seckill.service;
 
+import com.andy.seckill.common.ResultEnum;
+import com.andy.seckill.domain.User;
 import com.andy.seckill.mapper.UserMapper;
+import com.andy.seckill.vo.OrderVO;
 import com.andy.seckill.vo.UserVO;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 
@@ -23,4 +27,9 @@ public class UserService {
         return userMapper.findUserByAccountAndPassword(account, password);
     }
 
+    public User findOne(Long userId) {
+        User user = userMapper.findOne(userId);
+        Assert.notNull(user, "用户不存在");
+        return user;
+    }
 }

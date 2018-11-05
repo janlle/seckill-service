@@ -39,7 +39,7 @@ mybatis:
     lazy-loading-enabled: true
     use-generated-keys: true
 
-  mapper-locations: classpath:mybatis/mappers/*.xml
+#  mapper-locations: classpath:mybatis/mappers/*.xml
 
 # 如果在application中配置后xml就不用配置了
 #  config-location: classpath:mybatis/mybatis-config-xml
