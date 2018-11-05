@@ -3,6 +3,7 @@ package com.andy.seckill.service;
 import com.andy.seckill.domain.Order;
 import com.andy.seckill.mapper.OrderMapper;
 import com.andy.seckill.vo.OrderAddVO;
+import com.andy.seckill.vo.OrderDetailVO;
 import com.andy.seckill.vo.OrderVO;
 import org.springframework.stereotype.Service;
 
@@ -37,4 +38,14 @@ public class OrderService {
     }
 
 
+    /**
+     *
+     * @param orderId
+     * @return
+     */
+    public OrderDetailVO findOne(Long orderId) {
+
+
+        return null;
+    }
 }
