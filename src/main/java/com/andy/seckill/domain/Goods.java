@@ -19,6 +19,8 @@ public class Goods {
 
     private String description;
 
+    private String discountPrice;
+
     private Integer price;
 
     private Integer stock;
@@ -87,5 +89,13 @@ public class Goods {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getDiscountPrice() {
+        return discountPrice;
+    }
+
+    public void setDiscountPrice(String discountPrice) {
+        this.discountPrice = discountPrice;
     }
 }

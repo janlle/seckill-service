@@ -23,6 +23,8 @@ public class GoodsVO {
 
     private Integer price;
 
+    private String discountPrice;
+
     private Integer stock;
 
     private Integer status;
