@@ -39,11 +39,21 @@ public class OrderService {
 
 
     /**
-     *
      * @param orderId
      * @return
      */
     public OrderDetailVO findOne(Long orderId) {
+
+
+        return null;
+    }
+
+    /**
+     * @param userId
+     * @param goodsId
+     * @return
+     */
+    public Order findByUserIdAndGoodsId(Long userId, Long goodsId) {
 
 
         return null;
