@@ -44,7 +44,7 @@ public class Response<T> implements Serializable {
     }
 
     public static <T> Response<T> success(T data) {
-        return new Response<>(20000, "success", data);
+        return new Response<>(MessageEnum.SUCCESS.getCode(), MessageEnum.SUCCESS.getMessage(), data);
     }
 
     public static <T> Response<T> build(Integer code, String msg) {
