@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>hello</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+</head>
+<body>
+<!--<p th:text="'hello:'+${name}" ></p>-->
+
+<script>
+    $(function () {
+        cors();
+    });
+    function cors() {
+        $.ajax({
+            url: "http://127.0.0.1:8081/user/hello",
+            type: "GET",
+            success: function (data) {
+                if (data.code == 20000) {
+                    alert('success');
+                } else {
+                    alert('error');
+                }
+            },
+            error: function () {
+                alert("客户端请求有误");
+            }
+        });
+    }
+</script>
+</body>
+</html>
