@@ -1,6 +1,5 @@
 package com.andy.seckill.rabbitmq;
 
-import com.andy.seckill.domain.Order;
 import com.andy.seckill.domain.User;
 import com.andy.seckill.service.GoodsService;
 import com.andy.seckill.service.OrderService;
@@ -44,7 +43,9 @@ public class RabbitMQReceiver {
     }
 
     /**
-     * 接受消息
+     * <p>接受消息
+     * 1.判断商品库存
+     * 2.判断用户是否秒杀到
      *
      * @param message
      */
@@ -55,16 +56,19 @@ public class RabbitMQReceiver {
         User user = secKillMessage.getUser();
         Long goodsId = secKillMessage.getGoodsId();
 
+        // 查找商品判断库存情况
         GoodsDetailVO goods = goodsService.findOne(goodsId);
         int stock = goods.getStock();
         if (stock <= 0) {
             return;
         }
+
         //判断是否已经秒杀到了
         OrderVO order = orderService.findByUserIdAndGoodsId(user.getUserId(), goodsId);
         if (order != null) {
             return;
         }
+
         OrderAddVO orderAddVO = new OrderAddVO();
         orderAddVO.setGoodsId(secKillMessage.getGoodsId());
         orderAddVO.setUserId(secKillMessage.getUser().getUserId());

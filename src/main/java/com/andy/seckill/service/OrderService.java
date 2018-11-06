@@ -1,13 +1,16 @@
 package com.andy.seckill.service;
 
+import com.andy.seckill.common.RedisPrefix;
+import com.andy.seckill.domain.Goods;
 import com.andy.seckill.domain.Order;
+import com.andy.seckill.domain.OrderDetail;
 import com.andy.seckill.domain.User;
 import com.andy.seckill.mapper.OrderMapper;
-import com.andy.seckill.vo.GoodsDetailVO;
 import com.andy.seckill.vo.OrderAddVO;
 import com.andy.seckill.vo.OrderDetailVO;
 import com.andy.seckill.vo.OrderVO;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -25,6 +28,12 @@ public class OrderService {
     @Resource
     private GoodsService goodsService;
 
+    @Resource
+    private OrderDetailService orderDetailService;
+
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
+
     /**
      * 创建订单
      *
@@ -39,21 +48,27 @@ public class OrderService {
         order.setTotal(0);
         order.setUserId(orderAddVO.getUserId());
 
-        GoodsDetailVO goodsDetailVO = goodsService.findOne(orderAddVO.getGoodsId());
+        Goods goods = goodsService.findByGoodsId(orderAddVO.getGoodsId());
 
         // 保存订单
         int result = orderMapper.save(order);
 
-        OrderDetailVO orderDetailVO = new OrderDetailVO();
-        orderDetailVO.setCount(1);
-        BeanUtils.copyProperties(order, orderDetailVO);
+        // 保存详情
+        OrderDetail orderDetail = orderDetailService.save(goods, order);
 
+        OrderDetailVO orderDetailVO = new OrderDetailVO();
+        BeanUtils.copyProperties(orderDetail, orderDetailVO);
+
+        // 保存用户秒杀到的订单到redis中
+        redisTemplate.opsForValue().set(RedisPrefix.ORDER_PREFIX + orderAddVO.getUserId() + "-" + goods.getGoodsId(), order);
 
         return orderDetailVO;
     }
 
 
     /**
+     * 根据订单id查找订单
+     *
      * @param orderId
      * @return
      */
@@ -67,6 +82,8 @@ public class OrderService {
     }
 
     /**
+     * 根据订单id查找订单
+     *
      * @param userId
      * @param goodsId
      * @return
