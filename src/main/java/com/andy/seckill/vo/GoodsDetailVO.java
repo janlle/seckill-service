@@ -2,6 +2,7 @@ package com.andy.seckill.vo;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Date;
  * @since 2018-11-05
  **/
 @Data
-public class GoodsDetailVO {
+public class GoodsDetailVO implements Serializable {
 
     private Long goodsId;
 
@@ -25,7 +26,7 @@ public class GoodsDetailVO {
 
     private Integer price;
 
-    private String discountPrice;
+    private Integer discountPrice;
 
     private Integer stock;
 
@@ -83,11 +84,12 @@ public class GoodsDetailVO {
         this.price = price;
     }
 
-    public String getDiscountPrice() {
+
+    public Integer getDiscountPrice() {
         return discountPrice;
     }
 
-    public void setDiscountPrice(String discountPrice) {
+    public void setDiscountPrice(Integer discountPrice) {
         this.discountPrice = discountPrice;
     }
 

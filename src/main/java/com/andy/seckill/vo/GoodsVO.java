@@ -2,6 +2,8 @@ package com.andy.seckill.vo;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * <p>
  *
@@ -9,7 +11,7 @@ import lombok.Data;
  * @since 2018-10-26
  **/
 @Data
-public class GoodsVO {
+public class GoodsVO implements Serializable {
 
     private Long goodsId;
 

@@ -2,6 +2,7 @@ package com.andy.seckill.vo;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -11,22 +12,24 @@ import java.util.Date;
  * @since 2018-10-26
  **/
 @Data
-public class OrderDetailVO {
+public class OrderDetailVO implements Serializable {
+
+    private Long orderDetailId;
+
+    private Long goodsId;
 
     private Long orderId;
 
-    private Long userId;
+    private String picture;
 
-    private Integer totalPrice;
+    private Integer price;
 
-    private Integer status;
+    private Integer count;
+
+    private Integer total;
 
     private Date createTime;
 
-    private Date payTime;
-
-    private String account;
-
-    private Long goodsId;
+    private Date updateTime;
 
 }
