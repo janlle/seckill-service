@@ -22,7 +22,7 @@ public interface GoodsMapper {
 	@Select("select * from t_goods where status = 0 and goods_id = #{goodsId}")
     GoodsDetailVO findById(@Param("goodsId") Long goodsId);
 
-	@Update("update t_goods set stock_count = stock_count - 1 where goods_id = #{goodsId} and stock_count > 0")
-	int reduceStock(@Param("goodsId") Long goodsId);
+	@Update("update t_goods set stock_count = stock_count - 1 where goods_id = #{goodsId} and stock_count > 1")
+	int inventoryStock(@Param("goodsId") Long goodsId);
 
 }

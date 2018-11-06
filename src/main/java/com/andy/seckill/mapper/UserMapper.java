@@ -1,5 +1,6 @@
 package com.andy.seckill.mapper;
 
+import com.andy.seckill.domain.User;
 import com.andy.seckill.vo.UserVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -20,4 +21,6 @@ public interface UserMapper {
     @Select("select * from t_user where account = #{account} and password = ${password}")
     UserVO findUserByAccountAndPassword(@Param("account") String account, @Param("password") String password);
 
+    @Select("select * from t_user where user_id = #{userId}")
+    User findOne(@Param("userId")Long userId);
 }
