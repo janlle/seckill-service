@@ -3,6 +3,7 @@ package com.andy.seckill.service;
 import com.andy.seckill.domain.Order;
 import com.andy.seckill.domain.User;
 import com.andy.seckill.mapper.OrderMapper;
+import com.andy.seckill.vo.GoodsDetailVO;
 import com.andy.seckill.vo.OrderAddVO;
 import com.andy.seckill.vo.OrderDetailVO;
 import com.andy.seckill.vo.OrderVO;
@@ -21,24 +22,34 @@ public class OrderService {
     @Resource
     private UserService userService;
 
+    @Resource
+    private GoodsService goodsService;
+
     /**
      * 创建订单
      *
      * @param orderAddVO
      * @return
      */
-    public OrderVO createOrder(OrderAddVO orderAddVO) {
+    public OrderDetailVO createOrder(OrderAddVO orderAddVO) {
         Order order = new Order();
         Date date = new Date();
         order.setCreateTime(date);
         order.setStatus(0);
-        order.setTotalPrice(0);
+        order.setTotal(0);
         order.setUserId(orderAddVO.getUserId());
 
-        OrderVO vo = new OrderVO();
+        GoodsDetailVO goodsDetailVO = goodsService.findOne(orderAddVO.getGoodsId());
+
+        // 保存订单
+        int result = orderMapper.save(order);
+
+        OrderDetailVO orderDetailVO = new OrderDetailVO();
+        orderDetailVO.setCount(1);
+        BeanUtils.copyProperties(order, orderDetailVO);
 
 
-        return null;
+        return orderDetailVO;
     }
 
 
@@ -60,9 +71,7 @@ public class OrderService {
      * @param goodsId
      * @return
      */
-    public Order findByUserIdAndGoodsId(Long userId, Long goodsId) {
-
-
-        return null;
+    public OrderVO findByUserIdAndGoodsId(Long userId, Long goodsId) {
+        return orderMapper.findByUserIdAndOrderId(userId, goodsId);
     }
 }

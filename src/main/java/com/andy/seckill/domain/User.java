@@ -1,5 +1,6 @@
 package com.andy.seckill.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Date;
  * @author Leone
  * @since 2018-10-26
  **/
-public class User {
+public class User implements Serializable {
 
     private Long userId;
 
