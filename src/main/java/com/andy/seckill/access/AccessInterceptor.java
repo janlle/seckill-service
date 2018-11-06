@@ -1,21 +1,22 @@
 package com.andy.seckill.access;
 
 import com.andy.seckill.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import javax.servlet.http.Cookie;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.OutputStream;
 
+/**
+ * <p>
+ *
+ * @author Leone
+ **/
 @Service
 public class AccessInterceptor extends HandlerInterceptorAdapter {
 
-    @Autowired
+    @Resource
     private UserService userService;
 
     @Override

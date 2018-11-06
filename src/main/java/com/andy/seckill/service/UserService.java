@@ -1,9 +1,7 @@
 package com.andy.seckill.service;
 
-import com.andy.seckill.common.ResultEnum;
 import com.andy.seckill.domain.User;
 import com.andy.seckill.mapper.UserMapper;
-import com.andy.seckill.vo.OrderVO;
 import com.andy.seckill.vo.UserVO;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;

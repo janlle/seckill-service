@@ -31,20 +31,16 @@ public class Response<T> implements Serializable {
         return new Response<>(code, message, data);
     }
 
-    public static <T> Response<T> build(ResultEnum resultEnum) {
-        return new Response<>(resultEnum.getCode(), resultEnum.getMsg(), null);
+    public static <T> Response<T> build(MessageEnum resultEnum) {
+        return new Response<>(resultEnum.getCode(), resultEnum.getMessage(), null);
     }
 
-    public static <T> Response<T> error(String message) {
-        return new Response<>(40000, message, null);
+    public static <T> Response<T> error(MessageEnum messageEnum) {
+        return new Response<>(messageEnum.getCode(), messageEnum.getMessage(), null);
     }
 
-    public static <T> Response<T> error(Integer code, String message) {
-        return new Response<>(code, message, null);
-    }
-
-    public static <T> Response<T> success(String message) {
-        return new Response<>(20000, message, null);
+    public static <T> Response<T> success(MessageEnum messageEnum) {
+        return new Response<>(messageEnum.getCode(), messageEnum.getMessage(), null);
     }
 
     public static <T> Response<T> success(T data) {

@@ -3,7 +3,7 @@ package com.andy.seckill.controller;
 
 import com.andy.seckill.common.RedisPrefix;
 import com.andy.seckill.common.Response;
-import com.andy.seckill.common.ResultEnum;
+import com.andy.seckill.common.MessageEnum;
 import com.andy.seckill.domain.User;
 import com.andy.seckill.rabbitmq.RabbitMQSender;
 import com.andy.seckill.rabbitmq.SecKillMessage;
@@ -73,12 +73,12 @@ public class SecKillController implements InitializingBean {
         //验证path
         boolean check = secKillService.checkPath(path);
         if (!check) {
-            return Response.build(ResultEnum.ERROR);
+            return Response.build(MessageEnum.ERROR);
         }
 
         // 内存标记，减少redis访问
         if (localOverMap.get(goodsId)) {
-            return Response.build(ResultEnum.ERROR);
+            return Response.build(MessageEnum.ERROR);
         }
 
         // 预减库存
@@ -86,13 +86,13 @@ public class SecKillController implements InitializingBean {
 
         if (stock < 0) {
             localOverMap.put(goodsId, true);
-            return Response.build(ResultEnum.ERROR);
+            return Response.build(MessageEnum.ERROR);
         }
 
         // 判断用户是否已经秒杀到了
         OrderVO order = orderService.findByUserIdAndGoodsId(userId, goodsId);
         if (order != null) {
-            return Response.build(ResultEnum.ERROR);
+            return Response.build(MessageEnum.ERROR);
         }
 
         SecKillMessage message = new SecKillMessage();
@@ -108,11 +108,17 @@ public class SecKillController implements InitializingBean {
      * 返回:orderId == 成功,返回:-1 == 秒杀失败,返回:0 == 排队中
      */
     @ResponseBody
-    @GetMapping("/result")
+    @GetMapping("/kill/result")
     public Response<Long> result(Model model, @RequestParam Long userId, @RequestParam Long goodsId) {
         model.addAttribute("user", new User());
         Long result = secKillService.result(userId, goodsId);
         return Response.success(result);
+    }
+
+    @ResponseBody
+    @GetMapping("/kill/path")
+    public String path() {
+        return "/hello/";
     }
 
 

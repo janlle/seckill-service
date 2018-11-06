@@ -71,6 +71,11 @@
             <version>1.18.2</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring</artifactId>
+        </dependency>
+
     </dependencies>
 
 
