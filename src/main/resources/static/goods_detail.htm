@@ -16,11 +16,7 @@
             height: 100%;
             width: 100%;
         }
-        body {
-            background: url('/img/bg2.jpg') no-repeat;
-            background-size: 100% 100%;
-        }
-        #goodslist td {
+        #goodsList td {
             border-top: 1px solid #39503f61;
         }
     </style>
@@ -33,21 +29,26 @@
         <span id="userTip"> 您还没有登录，请登陆后再操作<br/></span>
         <span>没有收货地址的提示。。。</span>
     </div>
-    <table class="table" id="goodslist">
+
+    <table class="table" id="goodsList">
         <tr>
             <td>商品名称</td>
-            <td colspan="3" id="goodsName"></td>
+            <td colspan="3" id="name"></td>
+        </tr>
+        <tr>
+            <td>商品标题</td>
+            <td colspan="3" id="title"></td>
         </tr>
         <tr>
             <td>商品图片</td>
-            <td colspan="3"><img id="goodsImg" width="200" height="200"/></td>
+            <td colspan="3"><img id="picture" width="200" height="200"/></td>
         </tr>
         <tr>
             <td>秒杀开始时间</td>
             <td id="startTime"></td>
             <td>
                 <input type="hidden" id="remainSeconds"/>
-                <span id="miaoshaTip"></span>
+                <span id="secKillTip"></span>
             </td>
             <td>
                 <!--
@@ -57,10 +58,9 @@
                     </form>-->
                 <div class="row">
                     <div class="form-inline">
-                        <img id="verifyCodeImg" width="80" height="32" style="display:none"
-                             onclick="refreshVerifyCode()"/>
+                        <img id="verifyCodeImg" width="80" height="32" style="display:none" onclick="refreshVerifyCode()"/>
                         <input id="verifyCode" class="form-control" style="display:none"/>
-                        <button class="btn btn-primary" type="button" id="buyButton" onclick="getMiaoshaPath()">立即秒杀
+                        <button class="btn btn-primary" type="button" id="buyButton" onclick="getKillPath()">立即秒杀
                         </button>
                     </div>
                 </div>
@@ -69,26 +69,26 @@
         </tr>
         <tr>
             <td>商品原价</td>
-            <td colspan="3" id="goodsPrice"></td>
+            <td colspan="3" id="price"></td>
         </tr>
         <tr>
             <td>秒杀价</td>
-            <td colspan="3" id="miaoshaPrice"></td>
+            <td colspan="3" id="discountPrice"></td>
         </tr>
         <tr>
             <td>库存数量</td>
-            <td colspan="3" id="stockCount"></td>
+            <td colspan="3" id="stock"></td>
         </tr>
     </table>
 </div>
 </body>
 <script>
 
-    function getMiaoshaPath() {
+    function getKillPath() {
         var goodsId = $("#goodsId").val();
         g_showLoading();
         $.ajax({
-            url: "/miaosha/path",
+            url: "/kill/path",
             type: "GET",
             data: {
                 goodsId: goodsId,
@@ -97,7 +97,7 @@
             success: function (data) {
                 if (data.code == 0) {
                     var path = data.data;
-                    doMiaosha(path);
+                    doKill(path);
                 } else {
                     layer.msg(data.msg);
                 }
@@ -108,10 +108,10 @@
         });
     }
 
-    function getMiaoshaResult(goodsId) {
+    function getKillResult(goodsId) {
         g_showLoading();
         $.ajax({
-            url: "/miaosha/result",
+            url: "/kill/result",
             type: "GET",
             data: {
                 goodsId: $("#goodsId").val(),
@@ -121,9 +121,10 @@
                     var result = data.data;
                     if (result < 0) {
                         layer.msg("对不起，秒杀失败");
-                    } else if (result == 0) {//继续轮询
+                        //继续轮询
+                    } else if (result == 0) {
                         setTimeout(function () {
-                            getMiaoshaResult(goodsId);
+                            getKillResult(goodsId);
                         }, 200);
                     } else {
                         layer.confirm("恭喜你，秒杀成功！查看订单？", {btn: ["确定", "取消"]},
@@ -144,9 +145,9 @@
         });
     }
 
-    function doMiaosha(path) {
+    function doKill(path) {
         $.ajax({
-            url: "/miaosha/" + path + "/do_miaosha",
+            url: "/kill/" + path + "/start",
             type: "POST",
             data: {
                 goodsId: $("#goodsId").val()
@@ -154,7 +155,7 @@
             success: function (data) {
                 if (data.code == 0) {
                     //window.location.href="/order_detail.htm?orderId="+data.data.id;
-                    getMiaoshaResult($("#goodsId").val());
+                    getKillResult($("#goodsId").val());
                 } else {
                     layer.msg(data.msg);
                 }
@@ -213,7 +214,7 @@
         var timeout;
         if (remainSeconds > 0) {//秒杀还没开始，倒计时
             $("#buyButton").attr("disabled", true);
-            $("#miaoshaTip").html("秒杀倒计时：" + remainSeconds + "秒");
+            $("#secKillTip").html("秒杀倒计时：" + remainSeconds + "秒");
             timeout = setTimeout(function () {
                 $("#countDown").text(remainSeconds - 1);
                 $("#remainSeconds").val(remainSeconds - 1);
@@ -224,13 +225,13 @@
             if (timeout) {
                 clearTimeout(timeout);
             }
-            $("#miaoshaTip").html("秒杀进行中");
+            $("#secKillTip").html("秒杀进行中");
             $("#verifyCodeImg").attr("src", "/miaosha/verifyCode?goodsId=" + $("#goodsId").val());
             $("#verifyCodeImg").show();
             $("#verifyCode").show();
         } else {//秒杀已经结束
             $("#buyButton").attr("disabled", true);
-            $("#miaoshaTip").html("秒杀已经结束");
+            $("#secKillTip").html("秒杀已经结束");
             $("#verifyCodeImg").hide();
             $("#verifyCode").hide();
         }

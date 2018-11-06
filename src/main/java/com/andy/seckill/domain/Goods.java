@@ -22,7 +22,7 @@ public class Goods implements Serializable {
 
     private String description;
 
-    private String discountPrice;
+    private Integer discountPrice;
 
     private Integer price;
 
@@ -114,11 +114,11 @@ public class Goods implements Serializable {
         this.status = status;
     }
 
-    public String getDiscountPrice() {
+    public Integer getDiscountPrice() {
         return discountPrice;
     }
 
-    public void setDiscountPrice(String discountPrice) {
+    public void setDiscountPrice(Integer discountPrice) {
         this.discountPrice = discountPrice;
     }
 }

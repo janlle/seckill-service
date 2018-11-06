@@ -10,15 +10,14 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p>
  *
  * @author Leone
- * @since 2018-10-26
  **/
 @Retention(RUNTIME)
 @Target(METHOD)
 public @interface AccessLimit {
 
-	int seconds();
+    int seconds();
 
-	int maxCount();
+    int maxCount();
 
-	boolean needLogin() default true;
+    boolean needLogin() default true;
 }
