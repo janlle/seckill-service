@@ -1,5 +1,6 @@
 package com.andy.seckill.controller;
 
+import com.andy.seckill.common.Response;
 import com.andy.seckill.service.GoodsService;
 import com.andy.seckill.vo.GoodsDetailVO;
 import com.andy.seckill.vo.GoodsVO;
@@ -8,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -27,10 +29,6 @@ public class GoodsController {
     @Resource
     private GoodsService goodsService;
 
-//    public Response list() {
-//        return Response.success(goodsService.list());
-//    }
-
 
     @GetMapping("/list")
     public String list(Model model) {
@@ -39,17 +37,18 @@ public class GoodsController {
         return "goods_list";
     }
 
+    @ResponseBody
     @GetMapping("/detail/{goodsId}")
-    public String detail(@PathVariable(name = "goodsId") Long goodsId,
-                         HttpServletRequest request,
-                         HttpServletResponse response,
-                         Model model) {
+    public Response detail(@PathVariable Long goodsId,
+                           HttpServletRequest request,
+                           HttpServletResponse response,
+                           Model model) {
 
-        GoodsDetailVO GoodsDetailVO = goodsService.findOne(goodsId);
-        model.addAttribute("goodsDetail", GoodsDetailVO);
+        GoodsDetailVO goodsDetailVO = goodsService.findOne(goodsId);
+        model.addAttribute("goods", goodsDetailVO);
 
-        long startTime = GoodsDetailVO.getStartTime().getTime();
-        long endTime = GoodsDetailVO.getEndTime().getTime();
+        long startTime = goodsDetailVO.getStartTime().getTime();
+        long endTime = goodsDetailVO.getEndTime().getTime();
         long nowTime = System.currentTimeMillis();
 
         int secKillStatus;
@@ -69,9 +68,12 @@ public class GoodsController {
             secKillStatus = 1;
             remainSeconds = 0;
         }
-        model.addAttribute("secKillStatus", secKillStatus);
-        model.addAttribute("remainSeconds", remainSeconds);
-        return "goods_detail";
+//        model.addAttribute("secKillStatus", secKillStatus);
+//        model.addAttribute("remainSeconds", remainSeconds);
+//        return "goods_detail";
+        goodsDetailVO.setSecKillStatus(secKillStatus);
+        goodsDetailVO.setRemainSeconds(remainSeconds);
+        return Response.success(goodsDetailVO);
     }
 
 

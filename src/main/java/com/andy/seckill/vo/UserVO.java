@@ -2,6 +2,7 @@ package com.andy.seckill.vo;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Date;
  * @since 2018-10-26
  **/
 @Data
-public class UserVO {
+public class UserVO implements Serializable {
 
     private Long userId;
 

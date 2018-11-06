@@ -42,4 +42,16 @@ public class GoodsService {
     public GoodsDetailVO findOne(Long goodsId) {
         return goodsMapper.findById(goodsId);
     }
+
+    /**
+     * 减库存
+     *
+     * @param goodsId
+     * @return
+     */
+    public boolean inventoryStock(Long goodsId) {
+        return goodsMapper.inventoryStock(goodsId) > 0;
+    }
+
+
 }

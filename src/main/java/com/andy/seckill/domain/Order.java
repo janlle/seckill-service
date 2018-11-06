@@ -1,5 +1,6 @@
 package com.andy.seckill.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -8,13 +9,13 @@ import java.util.Date;
  * @author Leone
  * @since 2018-10-26
  **/
-public class Order {
+public class Order implements Serializable {
 
     private Long orderId;
 
     private Long userId;
 
-    private Integer totalPrice;
+    private Integer total;
 
     private Integer status;
 
@@ -38,12 +39,12 @@ public class Order {
         this.userId = userId;
     }
 
-    public Integer getTotalPrice() {
-        return totalPrice;
+    public Integer getTotal() {
+        return total;
     }
 
-    public void setTotalPrice(Integer totalPrice) {
-        this.totalPrice = totalPrice;
+    public void setTotal(Integer total) {
+        this.total = total;
     }
 
     public Integer getStatus() {

@@ -2,6 +2,7 @@ package com.andy.seckill.vo;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * @since 2018-10-26
  **/
 @Data
-public class OrderVO {
+public class OrderVO implements Serializable {
 
     private Long orderId;
 

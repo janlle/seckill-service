@@ -3,25 +3,19 @@
 <head>
     <title>订单详情</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <!-- jquery -->
-    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
-    <!-- bootstrap -->
     <link rel="stylesheet" type="text/css" th:href="@{/bootstrap/css/bootstrap.min.css}"/>
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
-    <!-- jquery-validator -->
     <script type="text/javascript" th:src="@{/jquery-validation/jquery.validate.min.js}"></script>
     <script type="text/javascript" th:src="@{/jquery-validation/localization/messages_zh.min.js}"></script>
-    <!-- layer -->
     <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
-    <!-- md5.js -->
     <script type="text/javascript" th:src="@{/js/md5.min.js}"></script>
-    <!-- common.js -->
     <script type="text/javascript" th:src="@{/js/common.js}"></script>
 </head>
 <body>
 <div class="panel panel-default">
     <div class="panel-heading">秒杀订单详情</div>
-    <table class="table" id="goodslist">
+    <table class="table" id="goodsList">
         <tr>
             <td>商品名称</td>
             <td th:text="${goods.goodsName}" colspan="3"></td>

@@ -71,6 +71,11 @@
             <version>1.18.2</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring</artifactId>
+        </dependency>
+
     </dependencies>
 
 
@@ -92,7 +97,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>2.0.3.RELEASE</version>
                 <configuration>
-                    <!--<mainClass>${start-class}</mainClass>-->
+                    <mainClass>com.andy.seckill.SecKillApplication</mainClass>
                     <layout>ZIP</layout>
                 </configuration>
                 <executions>
