@@ -25,11 +25,10 @@
 
 <div class="panel panel-default" style="height:100%;background-color:rgba(222,222,222,0.8)">
     <div class="panel-heading">秒杀商品详情</div>
-    <div class="panel-body">
-        <span id="userTip"> 您还没有登录，请登陆后再操作<br/></span>
-        <span>没有收货地址的提示。。。</span>
-    </div>
-
+    <!--<div class="panel-body">-->
+    <!--<span id="userTip"> 您还没有登录，请登陆后再操作<br/></span>-->
+    <!--<span>没有收货地址的提示。。。</span>-->
+    <!--</div>-->
     <table class="table" id="goodsList">
         <tr>
             <td>商品名称</td>
@@ -58,7 +57,8 @@
                     </form>-->
                 <div class="row">
                     <div class="form-inline">
-                        <img id="verifyCodeImg" width="80" height="32" style="display:none" onclick="refreshVerifyCode()"/>
+                        <img id="verifyCodeImg" width="80" height="32" style="display:none"
+                             onclick="refreshVerifyCode()"/>
                         <input id="verifyCode" class="form-control" style="display:none"/>
                         <button class="btn btn-primary" type="button" id="buyButton" onclick="getKillPath()">立即秒杀
                         </button>
@@ -83,6 +83,12 @@
 </div>
 </body>
 <script>
+
+
+    $(function () {
+        //countDown();
+        getDetail();
+    });
 
     function getKillPath() {
         var goodsId = $("#goodsId").val();
@@ -167,40 +173,43 @@
 
     }
 
-    function render(detail) {
-        var miaoshaStatus = detail.miaoshaStatus;
-        var remainSeconds = detail.remainSeconds;
-        var goods = detail.goods;
-        var user = detail.user;
+    /**
+     * 手动渲染页面
+     * @param data
+     */
+    function render(data) {
+        var secKillStatus = data.secKillStatus;
+        var remainSeconds = data.remainSeconds;
+        var user = data.user;
         if (user) {
             $("#userTip").hide();
         }
-        $("#goodsName").text(goods.goodsName);
-        $("#goodsImg").attr("src", goods.goodsImg);
-        $("#startTime").text(new Date(goods.startDate).format("yyyy-MM-dd hh:mm:ss"));
+        $("#name").text(data.name);
+        $("#title").text(data.title);
+        $("#picture").attr("src", data.picture);
+        $("#startTime").text(new Date(data.startTime).format("yyyy-MM-dd hh:mm:ss"));
         $("#remainSeconds").val(remainSeconds);
-        $("#goodsId").val(goods.id);
-        $("#goodsPrice").text(goods.goodsPrice);
-        $("#miaoshaPrice").text(goods.miaoshaPrice);
-        $("#stockCount").text(goods.stockCount);
+        $("#goodsId").val(data.goodsId);
+        $("#price").text(data.price);
+        $("#discountPrice").text(data.discountPrice);
+        $("#stock").text(data.stock);
         countDown();
     }
 
-    $(function () {
-        //countDown();
-        getDetail();
-    });
 
+    /**
+     * 获取商品详情页数据
+     */
     function getDetail() {
         var goodsId = g_getQueryString("goodsId");
         $.ajax({
             url: "/goods/detail/" + goodsId,
             type: "GET",
             success: function (data) {
-                if (data.code == 0) {
+                if (data.code == 20000) {
                     render(data.data);
                 } else {
-                    layer.msg(data.msg);
+                    layer.msg(data.message);
                 }
             },
             error: function () {
@@ -212,7 +221,8 @@
     function countDown() {
         var remainSeconds = $("#remainSeconds").val();
         var timeout;
-        if (remainSeconds > 0) {//秒杀还没开始，倒计时
+        //秒杀还没开始，倒计时
+        if (remainSeconds > 0) {
             $("#buyButton").attr("disabled", true);
             $("#secKillTip").html("秒杀倒计时：" + remainSeconds + "秒");
             timeout = setTimeout(function () {
@@ -220,7 +230,8 @@
                 $("#remainSeconds").val(remainSeconds - 1);
                 countDown();
             }, 1000);
-        } else if (remainSeconds == 0) {//秒杀进行中
+            //秒杀进行中
+        } else if (remainSeconds == 0) {
             $("#buyButton").attr("disabled", false);
             if (timeout) {
                 clearTimeout(timeout);

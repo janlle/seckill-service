@@ -4,6 +4,7 @@ import com.andy.seckill.common.Response;
 import com.andy.seckill.service.GoodsService;
 import com.andy.seckill.vo.GoodsDetailVO;
 import com.andy.seckill.vo.GoodsVO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

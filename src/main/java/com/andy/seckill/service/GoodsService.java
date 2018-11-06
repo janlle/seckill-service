@@ -1,5 +1,6 @@
 package com.andy.seckill.service;
 
+import com.andy.seckill.domain.Goods;
 import com.andy.seckill.mapper.GoodsMapper;
 import com.andy.seckill.vo.GoodsDetailVO;
 import com.andy.seckill.vo.GoodsVO;
@@ -28,6 +29,8 @@ public class GoodsService {
 
 
     /**
+     * 获取所有商品类表
+     *
      * @return
      */
     public List<GoodsVO> list() {
@@ -36,11 +39,23 @@ public class GoodsService {
 
 
     /**
+     * 根据商品id查找商品
+     *
      * @param goodsId
      * @return
      */
     public GoodsDetailVO findOne(Long goodsId) {
         return goodsMapper.findById(goodsId);
+    }
+
+    /**
+     * 根据商品id查找商品
+     *
+     * @param goodsId
+     * @return
+     */
+    public Goods findByGoodsId(Long goodsId) {
+        return goodsMapper.findByGoodsId(goodsId);
     }
 
     /**
