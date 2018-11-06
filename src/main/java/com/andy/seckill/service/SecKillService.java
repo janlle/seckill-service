@@ -33,6 +33,8 @@ public class SecKillService {
 
     /**
      * 秒杀业务
+     * 1.判断商品库存
+     * 2.调用订单service
      *
      * @param orderAddVO
      */

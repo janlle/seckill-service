@@ -11,4 +11,6 @@ public interface RedisPrefix {
 
     String KILL_PATH = "kill.path";
 
+    String ORDER_PREFIX = "order.";
+
 }
