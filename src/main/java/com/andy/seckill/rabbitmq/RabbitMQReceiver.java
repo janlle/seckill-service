@@ -6,6 +6,8 @@ import com.andy.seckill.service.GoodsService;
 import com.andy.seckill.service.OrderService;
 import com.andy.seckill.service.SecKillService;
 import com.andy.seckill.vo.GoodsDetailVO;
+import com.andy.seckill.vo.OrderAddVO;
+import com.andy.seckill.vo.OrderVO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -59,12 +61,16 @@ public class RabbitMQReceiver {
             return;
         }
         //判断是否已经秒杀到了
-        Order order = orderService.findByUserIdAndGoodsId(user.getUserId(), goodsId);
+        OrderVO order = orderService.findByUserIdAndGoodsId(user.getUserId(), goodsId);
         if (order != null) {
             return;
         }
+        OrderAddVO orderAddVO = new OrderAddVO();
+        orderAddVO.setGoodsId(secKillMessage.getGoodsId());
+        orderAddVO.setUserId(secKillMessage.getUser().getUserId());
+
         //减库存 下订单 写入秒杀订单
-        secKillService.kill(user, goods);
+        secKillService.kill(orderAddVO);
     }
 
 
