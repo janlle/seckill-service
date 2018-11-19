@@ -44,4 +44,3 @@ mybatis:
 # 如果在application中配置后xml就不用配置了
 #  config-location: classpath:mybatis/mybatis-config-xml
 
-
