@@ -43,12 +43,4 @@ mybatis:
 
 # 如果在application中配置后xml就不用配置了
 #  config-location: classpath:mybatis/mybatis-config-xml
-<<<<<<< HEAD
 
-=======
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 933af3379fa7a4b5f4553875814ddd7007a9bd72
->>>>>>> 6d72cfdb0fc11c0134a51558bf6bffbc88afe4cb
