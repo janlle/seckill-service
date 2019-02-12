@@ -2,7 +2,7 @@ package com.andy.seckill.service;
 
 import com.andy.seckill.domain.Goods;
 import com.andy.seckill.domain.Order;
-import com.andy.seckill.domain.OrderDetail;
+import com.andy.seckill.domain.OrderItem;
 import com.andy.seckill.mapper.OrderDetailMapper;
 import org.springframework.stereotype.Service;
 
@@ -33,15 +33,14 @@ public class OrderDetailService {
      * @param goods
      * @param order
      */
-    public OrderDetail save(Goods goods, Order order) {
-        OrderDetail orderDetail = new OrderDetail();
-        orderDetail.setCount(1);
+    public OrderItem save(Goods goods, Order order) {
+        OrderItem orderDetail = new OrderItem();
+        orderDetail.setGoodsCount(1);
         orderDetail.setCreateTime(new Date());
         orderDetail.setGoodsId(goods.getGoodsId());
         orderDetail.setOrderId(order.getOrderId());
-        orderDetail.setPicture(goods.getPicture());
-        orderDetail.setPrice(goods.getDiscountPrice());
-        orderDetail.setTotal(goods.getDiscountPrice());
+        orderDetail.setGoodsPicture(goods.getPicture());
+        orderDetail.setGoodsPrice(goods.getDiscountPrice());
         orderDetailMapper.save(orderDetail);
         return orderDetail;
     }

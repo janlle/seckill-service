@@ -1,9 +1,9 @@
 package com.andy.seckill.controller;
 
 
+import com.andy.seckill.common.MessageEnum;
 import com.andy.seckill.common.RedisPrefix;
 import com.andy.seckill.common.Response;
-import com.andy.seckill.common.MessageEnum;
 import com.andy.seckill.domain.User;
 import com.andy.seckill.rabbitmq.RabbitMQSender;
 import com.andy.seckill.rabbitmq.SecKillMessage;
@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  * <p>
@@ -65,12 +67,14 @@ public class SecKillController implements InitializingBean {
                 localOverMap.put(e.getGoodsId(), false);
             });
         }
+        String path = UUID.randomUUID().toString().replace("-", "");
+        redisTemplate.opsForValue().set(RedisPrefix.SEC_KILL_PATH_PREFIX, path);
     }
 
     @PostMapping(value = "/{path}/kill")
     public Response secKill(Model model, @RequestParam Long goodsId, @RequestParam Long userId, @PathVariable("path") String path) {
 
-        //验证path
+        // 验证path
         boolean check = secKillService.checkPath(path);
         if (!check) {
             return Response.build(MessageEnum.ERROR);
@@ -118,7 +122,7 @@ public class SecKillController implements InitializingBean {
     @ResponseBody
     @GetMapping("/kill/path")
     public String path() {
-        return "/hello/";
+        return Objects.requireNonNull(redisTemplate.opsForValue().get(RedisPrefix.SEC_KILL_PATH_PREFIX)).toString();
     }
 
 

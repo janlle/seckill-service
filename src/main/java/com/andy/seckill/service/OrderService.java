@@ -3,7 +3,7 @@ package com.andy.seckill.service;
 import com.andy.seckill.common.RedisPrefix;
 import com.andy.seckill.domain.Goods;
 import com.andy.seckill.domain.Order;
-import com.andy.seckill.domain.OrderDetail;
+import com.andy.seckill.domain.OrderItem;
 import com.andy.seckill.domain.User;
 import com.andy.seckill.mapper.OrderMapper;
 import com.andy.seckill.vo.OrderAddVO;
@@ -54,7 +54,7 @@ public class OrderService {
         int result = orderMapper.save(order);
 
         // 保存详情
-        OrderDetail orderDetail = orderDetailService.save(goods, order);
+        OrderItem orderDetail = orderDetailService.save(goods, order);
 
         OrderDetailVO orderDetailVO = new OrderDetailVO();
         BeanUtils.copyProperties(orderDetail, orderDetailVO);

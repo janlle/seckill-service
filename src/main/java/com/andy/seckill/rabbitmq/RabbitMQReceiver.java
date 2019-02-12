@@ -43,7 +43,7 @@ public class RabbitMQReceiver {
     }
 
     /**
-     * <p>接受消息
+     * <p> 接受消息
      * 1.判断商品库存
      * 2.判断用户是否秒杀到
      *

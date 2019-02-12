@@ -18,7 +18,6 @@ public class RabbitMQConfig {
 
     public static final String SEC_KILL_QUEUE = "sec-kill-queue";
 
-
     public static final String TOPIC_EXCHANGE = "topic-exchange";
 
     public static final String FANOUT_EXCHANGE = "fanout-exchange";
@@ -34,21 +33,9 @@ public class RabbitMQConfig {
         return new Queue(SEC_KILL_QUEUE, true);
     }
 
-
     @Bean
     public TopicExchange topicExchange(){
         return new TopicExchange(TOPIC_EXCHANGE);
     }
-
-
-    @Bean
-    public Binding topicBinding1() {
-        return BindingBuilder.bind(secKillQueue()).to(topicExchange()).with("topic.key1");
-    }
-    @Bean
-    public Binding topicBinding2() {
-        return BindingBuilder.bind(secKillQueue()).to(topicExchange()).with("topic.#");
-    }
-
 
 }

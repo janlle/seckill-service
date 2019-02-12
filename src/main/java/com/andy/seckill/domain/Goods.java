@@ -12,6 +12,8 @@ import java.util.Date;
  **/
 public class Goods implements Serializable {
 
+    private static final long serialVersionUID = 5751789031949253021L;
+
     private Long goodsId;
 
     private String name;
