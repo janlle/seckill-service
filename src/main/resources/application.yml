@@ -1,15 +1,29 @@
 spring:
   application:
     name: seckill
+# redis
   redis:
+    database: 2
+    timeout: 10000ms
     host: 127.0.0.1
     port: 6379
+    jedis:
+      pool:
+        # 最大连接数
+        max-active: 8
+        # 最大阻塞等待时间(负数表示没限制)
+        max-wait: -1ms
+        # 最大空闲
+        max-idle: 8
+        # 最小空闲
+        min-idle: 0
+# mysql
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/seckill?&useSSL=false
     username: root
     password: root
-#thymeleaf
+# thymeleaf
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
@@ -19,7 +33,7 @@ spring:
     enabled: true
     encoding: UTF-8
     mode: HTML
-#rabbitmq
+# rabbitmq
   rabbitmq:
     host: 127.0.0.1
     port: 5672
@@ -30,7 +44,6 @@ spring:
 mybatis:
   type-aliases-package: com.andy.seckill.domain
   configuration:
-    # 是否开启自动驼峰命名规则
     map-underscore-to-camel-case: true
     default-fetch-size: 100
     default-statement-timeout: 600
@@ -38,9 +51,4 @@ mybatis:
     cache-enabled: true
     lazy-loading-enabled: true
     use-generated-keys: true
-
-#  mapper-locations: classpath:mybatis/mappers/*.xml
-
-# 如果在application中配置后xml就不用配置了
-#  config-location: classpath:mybatis/mybatis-config-xml
 
