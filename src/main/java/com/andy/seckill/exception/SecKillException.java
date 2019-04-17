@@ -1,7 +1,5 @@
 package com.andy.seckill.exception;
 
-import com.andy.seckill.common.MessageEnum;
-
 /**
  * <p>
  *
@@ -25,9 +23,9 @@ public class SecKillException extends RuntimeException {
     public SecKillException() {
     }
 
-    public SecKillException(MessageEnum messageEnum) {
-        this.code = messageEnum.getCode();
-        this.message = messageEnum.getMessage();
+    public SecKillException(ExceptionMessage exceptionMessage) {
+        this.code = exceptionMessage.getCode();
+        this.message = exceptionMessage.getMessage();
     }
 
     public Integer getCode() {

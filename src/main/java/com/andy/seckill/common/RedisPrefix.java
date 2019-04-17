@@ -9,8 +9,6 @@ public interface RedisPrefix {
 
     String USER_PREFIX = "user.";
 
-    String KILL_PATH = "kill.path";
-
     String ORDER_PREFIX = "order.";
 
     String SEC_KILL_PATH_PREFIX = "seconds_kill_path";

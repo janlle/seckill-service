@@ -1,7 +1,6 @@
 package com.andy.seckill.controller;
 
-import com.andy.seckill.common.MessageEnum;
-import com.andy.seckill.common.Response;
+import com.andy.seckill.common.Result;
 import com.andy.seckill.service.UserService;
 import com.andy.seckill.vo.UserVO;
 import org.springframework.stereotype.Controller;
@@ -26,8 +25,8 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public Response<UserVO> user(Model model, UserVO vo) {
-        return Response.success(vo);
+    public Result<UserVO> user(Model model, UserVO vo) {
+        return Result.success(vo);
     }
 
     @GetMapping("/login")
@@ -42,8 +41,8 @@ public class UserController {
 
     @ResponseBody
     @GetMapping("/hello")
-    public Response hello() {
-        return Response.success(MessageEnum.SUCCESS);
+    public Result hello() {
+        return Result.success("");
     }
 
 }

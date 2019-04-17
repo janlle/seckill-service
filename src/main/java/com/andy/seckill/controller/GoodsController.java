@@ -1,10 +1,9 @@
 package com.andy.seckill.controller;
 
-import com.andy.seckill.common.Response;
+import com.andy.seckill.common.Result;
 import com.andy.seckill.service.GoodsService;
 import com.andy.seckill.vo.GoodsDetailVO;
 import com.andy.seckill.vo.GoodsVO;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,10 +38,10 @@ public class GoodsController {
 
     @ResponseBody
     @GetMapping("/detail/{goodsId}")
-    public Response detail(@PathVariable Long goodsId,
-                           HttpServletRequest request,
-                           HttpServletResponse response,
-                           Model model) {
+    public Result detail(@PathVariable Long goodsId,
+                         HttpServletRequest request,
+                         HttpServletResponse response,
+                         Model model) {
 
         GoodsDetailVO goodsDetailVO = goodsService.findOne(goodsId);
         model.addAttribute("goods", goodsDetailVO);
@@ -73,7 +72,7 @@ public class GoodsController {
 //        return "goods_detail";
         goodsDetailVO.setSecKillStatus(secKillStatus);
         goodsDetailVO.setRemainSeconds(remainSeconds);
-        return Response.success(goodsDetailVO);
+        return Result.success(goodsDetailVO);
     }
 
 
