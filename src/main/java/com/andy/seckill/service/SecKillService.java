@@ -63,7 +63,7 @@ public class SecKillService {
      * @return
      */
     public boolean checkPath(String path) {
-        String result = (String) redisTemplate.opsForValue().get(RedisPrefix.KILL_PATH);
+        String result = (String) redisTemplate.opsForValue().get(RedisPrefix.SEC_KILL_PATH_PREFIX);
         if (StringUtils.isEmpty(path)) {
             return false;
         }

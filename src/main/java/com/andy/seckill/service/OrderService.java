@@ -29,7 +29,7 @@ public class OrderService {
     private GoodsService goodsService;
 
     @Resource
-    private OrderDetailService orderDetailService;
+    private OrderItemService orderDetailService;
 
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
@@ -45,7 +45,7 @@ public class OrderService {
         Date date = new Date();
         order.setCreateTime(date);
         order.setStatus(0);
-        order.setTotal(0);
+        order.setTotalAmount(0);
         order.setUserId(orderAddVO.getUserId());
 
         Goods goods = goodsService.findByGoodsId(orderAddVO.getGoodsId());

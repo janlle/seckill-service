@@ -16,7 +16,7 @@ import java.util.Date;
  * @since 2018-10-26
  **/
 @Service
-public class OrderDetailService {
+public class OrderItemService {
 
     @Resource
     private OrderService orderService;
@@ -39,7 +39,7 @@ public class OrderDetailService {
         orderDetail.setCreateTime(new Date());
         orderDetail.setGoodsId(goods.getGoodsId());
         orderDetail.setOrderId(order.getOrderId());
-        orderDetail.setGoodsPicture(goods.getPicture());
+        orderDetail.setGoodsPicture(goods.getGoodsPicture());
         orderDetail.setGoodsPrice(goods.getDiscountPrice());
         orderDetailMapper.save(orderDetail);
         return orderDetail;

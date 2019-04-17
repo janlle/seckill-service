@@ -1,7 +1,8 @@
 spring:
   application:
-    name: seckill
-# redis
+    name: seckill-service
+
+# redis 配置
   redis:
     database: 2
     timeout: 10000ms
@@ -17,13 +18,15 @@ spring:
         max-idle: 8
         # 最小空闲
         min-idle: 0
-# mysql
+
+# mysql 配置
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/seckill?&useSSL=false
-    username: root
-    password: root
-# thymeleaf
+    username: xxxx
+    password: xxxx
+
+# thymeleaf 配置
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
@@ -33,22 +36,48 @@ spring:
     enabled: true
     encoding: UTF-8
     mode: HTML
-# rabbitmq
+
+# rabbitmq 配置
   rabbitmq:
     host: 127.0.0.1
     port: 5672
     username: cloud
     password: cloud
     virtual-host: /cloud
-# mybatis
+
+
+# mybatis 配置
 mybatis:
-  type-aliases-package: com.andy.seckill.domain
   configuration:
-    map-underscore-to-camel-case: true
-    default-fetch-size: 100
-    default-statement-timeout: 600
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # 全局映射器启用缓存
     cache-enabled: true
-    lazy-loading-enabled: true
+    # 当启用时，有延迟加载属性的对象在被调用时将会完全加载任意属性。否则，每种属性将会按需要加载。
+    aggressive-lazy-loading: false
+    # 全局启用或禁用延迟加载。当禁用时，所有关联对象都会即时加载
+    lazy-loading-enabled: false
+    # 对于批量更新操作缓存SQL以提高性能
+    default-executor-type: reuse
+    # 允许返回不同的结果集以达到通用的效果
+    multiple-result-sets-enabled: true
+    # 数据库执行超时时间
+    default-statement-timeout: 25000
+    # 打印sql语句
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # 允许JDBC 生成主键。需要驱动器支持。如果设为了true，这个设置将强制使用被生成的主键，有一些驱动器不兼容不过仍然可以执行。  default:false
     use-generated-keys: true
+    # 设置但JDBC类型为空时,某些驱动程序 要指定值,default:OTHER，插入空值时不需要指定类型
+    jdbc-type-for-null: null
+    # 使用驼峰命名法转换字段
+    map-underscore-to-camel-case: true
+    # 指定 MyBatis 如何自动映射 数据基表的列 NONE：不隐射　PARTIAL:部分  FULL:全部
+    auto-mapping-behavior: partial
+    # 是否可以使用列的别名 (取决于驱动的兼容性) default:true
+    use-column-label: true
+    # 指定 Mybatis 创建具有延迟加载能力的对象所用到的代理工具。CGLIB|JAVASSIST, default(JAVASSIST)
+    proxy-factory: CGLIB
+    # 指定 MyBatis 增加到日志名称的前缀。任何字符串
+    log-prefix: test
+  mapper-locations: classpath:mybatis/mappers/*.xml
+  type-aliases-package: com.andy.seckill.domain
+  executor-type: reuse
 
