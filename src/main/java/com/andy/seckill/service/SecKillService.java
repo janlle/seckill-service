@@ -1,9 +1,11 @@
 package com.andy.seckill.service;
 
 import com.andy.seckill.common.RedisPrefix;
-import com.andy.seckill.domain.Order;
+import com.andy.seckill.domain.User;
+import com.andy.seckill.rabbitmq.RabbitMQSender;
+import com.andy.seckill.rabbitmq.SecKillMessage;
 import com.andy.seckill.vo.OrderAddVO;
-import com.andy.seckill.vo.OrderDetailVO;
+import com.andy.seckill.vo.OrderItemVO;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -30,6 +32,9 @@ public class SecKillService {
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
 
+    @Resource
+    private RabbitMQSender rabbitMQSender;
+
 
     /**
      * 秒杀业务
@@ -39,7 +44,7 @@ public class SecKillService {
      * @param orderAddVO
      */
     @Transactional
-    public OrderDetailVO kill(OrderAddVO orderAddVO) {
+    public OrderItemVO kill(OrderAddVO orderAddVO) {
         boolean flag = goodsService.inventoryStock(orderAddVO.getGoodsId());
         if (flag) {
             // 生成订单
@@ -52,7 +57,7 @@ public class SecKillService {
     }
 
     /**
-     * 验证路径
+     * 验证路径是否有误
      *
      * @param path
      * @return
@@ -62,11 +67,7 @@ public class SecKillService {
         if (StringUtils.isEmpty(path)) {
             return false;
         }
-
-        if (path.equals(result)) {
-            return true;
-        }
-        return false;
+        return path.equals(result);
     }
 
     /**
@@ -80,4 +81,16 @@ public class SecKillService {
 
         return null;
     }
+
+    /**
+     * 发送消息到队列排队
+     *
+     * @param goodsId
+     */
+    public void sendQueue(Long goodsId) {
+        SecKillMessage message = new SecKillMessage(new User(), goodsId);
+        rabbitMQSender.send(message);
+    }
+
+
 }

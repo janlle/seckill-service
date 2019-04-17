@@ -13,6 +13,6 @@ public interface RedisPrefix {
 
     String ORDER_PREFIX = "order.";
 
-    String SEC_KILL_PATH_PREFIX = "sec_kill_path";
+    String SEC_KILL_PATH_PREFIX = "seconds_kill_path";
 
 }

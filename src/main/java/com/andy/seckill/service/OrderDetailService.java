@@ -3,7 +3,7 @@ package com.andy.seckill.service;
 import com.andy.seckill.domain.Goods;
 import com.andy.seckill.domain.Order;
 import com.andy.seckill.domain.OrderItem;
-import com.andy.seckill.mapper.OrderDetailMapper;
+import com.andy.seckill.mapper.OrderItemMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -25,7 +25,7 @@ public class OrderDetailService {
     private UserService userService;
 
     @Resource
-    private OrderDetailMapper orderDetailMapper;
+    private OrderItemMapper orderDetailMapper;
 
     /**
      * 保存订单详情

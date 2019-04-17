@@ -24,12 +24,11 @@ import java.util.List;
  * @since 2018-10-26
  **/
 @Controller
-@RequestMapping("/goods")
+@RequestMapping("/api/goods")
 public class GoodsController {
 
     @Resource
     private GoodsService goodsService;
-
 
     @GetMapping("/list")
     public String list(Model model) {

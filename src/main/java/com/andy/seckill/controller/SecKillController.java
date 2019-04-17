@@ -6,12 +6,10 @@ import com.andy.seckill.common.RedisPrefix;
 import com.andy.seckill.common.Response;
 import com.andy.seckill.domain.User;
 import com.andy.seckill.rabbitmq.RabbitMQSender;
-import com.andy.seckill.rabbitmq.SecKillMessage;
 import com.andy.seckill.service.GoodsService;
 import com.andy.seckill.service.OrderService;
 import com.andy.seckill.service.SecKillService;
 import com.andy.seckill.vo.GoodsVO;
-import com.andy.seckill.vo.OrderVO;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
@@ -32,6 +30,7 @@ import java.util.UUID;
  * @since 2018-11-05
  **/
 @Controller
+@RequestMapping("/api")
 public class SecKillController implements InitializingBean {
 
     @Resource
@@ -52,7 +51,7 @@ public class SecKillController implements InitializingBean {
     private HashMap<Long, Boolean> localOverMap = new HashMap<>();
 
     /**
-     * 初始化
+     * 初始化商品数据到 redis 中和本地 map 中
      *
      * @throws Exception
      */
@@ -63,13 +62,14 @@ public class SecKillController implements InitializingBean {
             return;
         } else {
             list.forEach(e -> {
-                redisTemplate.opsForValue().set(RedisPrefix.GOODS_PREFIX + e.getGoodsId(), e);
+                redisTemplate.opsForValue().set(RedisPrefix.GOODS_PREFIX + e.getGoodsId(), e.getStock());
                 localOverMap.put(e.getGoodsId(), false);
             });
         }
         String path = UUID.randomUUID().toString().replace("-", "");
         redisTemplate.opsForValue().set(RedisPrefix.SEC_KILL_PATH_PREFIX, path);
     }
+
 
     @PostMapping(value = "/{path}/kill")
     public Response secKill(Model model, @RequestParam Long goodsId, @RequestParam Long userId, @PathVariable("path") String path) {
@@ -86,30 +86,27 @@ public class SecKillController implements InitializingBean {
         }
 
         // 预减库存
-        Long stock = (Long) redisTemplate.opsForValue().get(RedisPrefix.GOODS_PREFIX + goodsId);
+        Long goodsCount = (Long) redisTemplate.opsForValue().get(RedisPrefix.GOODS_PREFIX + goodsId);
 
-        if (stock < 0) {
+        if (!ObjectUtils.isEmpty(goodsCount) && goodsCount < 0) {
             localOverMap.put(goodsId, true);
             return Response.build(MessageEnum.ERROR);
         }
 
         // 判断用户是否已经秒杀到了
-        OrderVO order = orderService.findByUserIdAndGoodsId(userId, goodsId);
-        if (order != null) {
-            return Response.build(MessageEnum.ERROR);
-        }
+//        OrderVO order = orderService.findByUserIdAndGoodsId(userId, goodsId);
+//        if (order != null) {
+//            return Response.build(MessageEnum.ERROR);
+//        }
 
-        SecKillMessage message = new SecKillMessage();
-        message.setGoodsId(goodsId);
-        message.setUser(new User());
-        rabbitMQSender.send(message);
-        // 排队中
+        // 进入消息队列排队中
+        secKillService.sendQueue(goodsId);
         return Response.success(0);
     }
 
 
     /**
-     * 返回:orderId == 成功,返回:-1 == 秒杀失败,返回:0 == 排队中
+     * 0：排队中，1：成功，-1：秒杀失败
      */
     @ResponseBody
     @GetMapping("/kill/result")

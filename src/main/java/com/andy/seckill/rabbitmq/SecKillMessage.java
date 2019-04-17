@@ -3,17 +3,29 @@ package com.andy.seckill.rabbitmq;
 
 import com.andy.seckill.domain.User;
 
+import java.io.Serializable;
+
 /**
  * <p>
  *
  * @author Leone
  * @since 2018-11-05
  **/
-public class SecKillMessage {
+public class SecKillMessage implements Serializable {
 
-	private User user;
+    private static final long serialVersionUID = -157748461550405224L;
+
+    private User user;
 
 	private Long goodsId;
+
+    public SecKillMessage(User user, Long goodsId) {
+        this.user = user;
+        this.goodsId = goodsId;
+    }
+
+    public SecKillMessage() {
+    }
 
     public User getUser() {
         return user;

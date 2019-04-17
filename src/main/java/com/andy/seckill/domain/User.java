@@ -17,16 +17,19 @@ public class User implements Serializable {
 
     private String account;
 
+    private String username;
+
     private String password;
 
-    private String description;
+    private String address;
 
     private Integer age;
+
+    private String phone;
 
     private Date createTime;
 
     private boolean deleted;
-
 
     public Long getUserId() {
         return userId;
@@ -44,6 +47,14 @@ public class User implements Serializable {
         this.account = account;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -52,12 +63,12 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public String getDescription() {
-        return description;
+    public String getAddress() {
+        return address;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public Integer getAge() {
@@ -66,6 +77,14 @@ public class User implements Serializable {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public Date getCreateTime() {

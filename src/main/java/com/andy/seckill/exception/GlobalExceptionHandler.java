@@ -22,8 +22,8 @@ public class GlobalExceptionHandler {
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(ValidateException.class)
-    public Response handleBaseException(ValidateException e) {
+    @ExceptionHandler(SecKillException.class)
+    public Response handleBaseException(SecKillException e) {
         logger.error("{}", e.getMessage());
         return Response.build(e.getCode(), e.getMessage());
     }

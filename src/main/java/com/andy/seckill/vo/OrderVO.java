@@ -1,10 +1,7 @@
 package com.andy.seckill.vo;
 
-import lombok.Data;
-
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 /**
  * <p>
@@ -12,14 +9,21 @@ import java.util.List;
  * @author Leone
  * @since 2018-10-26
  **/
-@Data
 public class OrderVO implements Serializable {
+
+    private static final long serialVersionUID = -4415046882353895041L;
 
     private Long orderId;
 
     private Long userId;
 
-    private Integer totalPrice;
+    private String username;
+
+    private String address;
+
+    private String phone;
+
+    private Integer totalAmount;
 
     private Integer status;
 
@@ -27,6 +31,8 @@ public class OrderVO implements Serializable {
 
     private Date payTime;
 
-    private List<OrderDetailVO> orderDetailVO;
+    private OrderItemVO orderItemVO;
+
+
 
 }

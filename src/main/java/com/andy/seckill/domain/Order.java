@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * <p>
+ * <p> 由于秒杀业务的订单和普通电商的订单表设计不同所以订单详情就只有一件商品
  *
  * @author Leone
  * @since 2018-10-26
@@ -17,7 +17,7 @@ public class Order implements Serializable {
 
     private Long userId;
 
-    private Integer total;
+    private Integer totalAmount;
 
     private Integer status;
 
@@ -41,12 +41,12 @@ public class Order implements Serializable {
         this.userId = userId;
     }
 
-    public Integer getTotal() {
-        return total;
+    public Integer getTotalAmount() {
+        return totalAmount;
     }
 
-    public void setTotal(Integer total) {
-        this.total = total;
+    public void setTotalAmount(Integer totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
     public Integer getStatus() {

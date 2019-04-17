@@ -28,6 +28,10 @@ public class OrderItem implements Serializable {
 
     private String goodsPicture;
 
+    private String goodsDescription;
+
+    private String goodsTitle;
+
     private Date createTime;
 
     public Long getOrderItemId() {
@@ -84,5 +88,21 @@ public class OrderItem implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getGoodsDescription() {
+        return goodsDescription;
+    }
+
+    public void setGoodsDescription(String goodsDescription) {
+        this.goodsDescription = goodsDescription;
+    }
+
+    public String getGoodsTitle() {
+        return goodsTitle;
+    }
+
+    public void setGoodsTitle(String goodsTitle) {
+        this.goodsTitle = goodsTitle;
     }
 }

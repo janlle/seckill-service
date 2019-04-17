@@ -14,26 +14,59 @@ public class Goods implements Serializable {
 
     private static final long serialVersionUID = 5751789031949253021L;
 
+    /**
+     * 商品id
+     */
     private Long goodsId;
 
+    /**
+     * 商品名称
+     */
     private String name;
 
+    /**
+     * 商品标题
+     */
     private String title;
 
+    /**
+     * 商品图片
+     */
     private String picture;
 
+    /**
+     * 商品详情
+     */
     private String description;
 
+    /**
+     * 折扣价
+     */
     private Integer discountPrice;
 
+    /**
+     * 商品价格
+     */
     private Integer price;
 
+    /**
+     * 商品库存
+     */
     private Integer stock;
 
+    /**
+     * 商品状态
+     */
     private Integer status;
 
+    /**
+     * 秒杀开始时间
+     */
     private Date startTime;
 
+    /**
+     * 秒杀结束时间
+     */
     private Date endTime;
 
     public Date getStartTime() {
