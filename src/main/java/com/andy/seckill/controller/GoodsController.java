@@ -2,7 +2,7 @@ package com.andy.seckill.controller;
 
 import com.andy.seckill.common.Result;
 import com.andy.seckill.service.GoodsService;
-import com.andy.seckill.vo.GoodsDetailVO;
+import com.andy.seckill.vo.GoodsListVO;
 import com.andy.seckill.vo.GoodsVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,7 +31,7 @@ public class GoodsController {
 
     @GetMapping("/list")
     public String list(Model model) {
-        List<GoodsVO> goodsList = goodsService.list();
+        List<GoodsListVO> goodsList = goodsService.list();
         model.addAttribute("goodsList", goodsList);
         return "goods_list";
     }
@@ -43,7 +43,7 @@ public class GoodsController {
                          HttpServletResponse response,
                          Model model) {
 
-        GoodsDetailVO goodsDetailVO = goodsService.findOne(goodsId);
+        GoodsVO goodsDetailVO = goodsService.findOne(goodsId);
         model.addAttribute("goods", goodsDetailVO);
 
         long startTime = goodsDetailVO.getStartTime().getTime();

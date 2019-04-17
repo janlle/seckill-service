@@ -76,7 +76,7 @@ public class UserService {
      * @param code
      * @param response
      */
-    public void createValidateCode(String code, HttpServletResponse response) {
+    public void verifyCode(String code, HttpServletResponse response) {
         String signal = String.valueOf(code.hashCode());
         String validateCode = ImgCodeUtil.createValidateCode(response, 80, 20);
         redisTemplate.opsForValue().set(RedisPrefix.VALIDATE_CODE_PREFIX + signal, validateCode);

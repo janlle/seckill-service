@@ -9,7 +9,7 @@ import com.andy.seckill.rabbitmq.RabbitMqSender;
 import com.andy.seckill.service.GoodsService;
 import com.andy.seckill.service.OrderService;
 import com.andy.seckill.service.SecKillService;
-import com.andy.seckill.vo.GoodsVO;
+import com.andy.seckill.vo.GoodsListVO;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
@@ -57,7 +57,7 @@ public class SecKillController implements InitializingBean {
      */
     @Override
     public void afterPropertiesSet() throws Exception {
-        List<GoodsVO> list = goodsService.list();
+        List<GoodsListVO> list = goodsService.list();
         if (ObjectUtils.isEmpty(list)) {
             return;
         } else {

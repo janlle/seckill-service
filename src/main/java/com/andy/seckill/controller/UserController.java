@@ -49,10 +49,12 @@ public class UserController {
     }
 
 
-    @GetMapping("/code/{signal}")
-    public void createValidateCode(@PathVariable("signal") String signal, HttpServletResponse response) {
-        log.info("signal: {}", signal);
-        userService.createValidateCode(signal, response);
+    @GetMapping("/verifyCode/{signal}/{timestamp}")
+    public void verifyCode(@PathVariable("signal") String signal,
+                                   @PathVariable("timestamp") String timestamp,
+                                   HttpServletResponse response) {
+        log.info("signal: {} timestamp: {}", signal, timestamp);
+        userService.verifyCode(signal, response);
     }
 
 }

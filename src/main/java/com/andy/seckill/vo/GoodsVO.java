@@ -3,17 +3,18 @@ package com.andy.seckill.vo;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
  *
  * @author Leone
- * @since 2018-10-26
+ * @since 2018-11-05
  **/
 @Data
 public class GoodsVO implements Serializable {
 
-    private static final long serialVersionUID = -521834744651413626L;
+    private static final long serialVersionUID = 1147736477076287617L;
 
     private Long goodsId;
 
@@ -27,11 +28,18 @@ public class GoodsVO implements Serializable {
 
     private Integer goodsPrice;
 
-    private String discountPrice;
+    private Integer discountPrice;
 
     private Integer goodsStock;
 
     private Integer goodsStatus;
 
+    private Date startTime;
+
+    private Date endTime;
+
+    private Integer secKillStatus;
+
+    private Integer remainSeconds;
 
 }

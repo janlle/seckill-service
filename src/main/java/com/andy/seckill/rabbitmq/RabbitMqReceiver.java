@@ -4,7 +4,7 @@ import com.andy.seckill.domain.User;
 import com.andy.seckill.service.GoodsService;
 import com.andy.seckill.service.OrderService;
 import com.andy.seckill.service.SecKillService;
-import com.andy.seckill.vo.GoodsDetailVO;
+import com.andy.seckill.vo.GoodsVO;
 import com.andy.seckill.vo.OrderAddVO;
 import com.andy.seckill.vo.OrderVO;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -56,7 +56,7 @@ public class RabbitMqReceiver {
         Long goodsId = secKillMessage.getGoodsId();
 
         // 查找商品判断库存情况
-        GoodsDetailVO goods = goodsService.findOne(goodsId);
+        GoodsVO goods = goodsService.findOne(goodsId);
         int stock = goods.getGoodsStock();
         if (stock <= 0) {
             return;

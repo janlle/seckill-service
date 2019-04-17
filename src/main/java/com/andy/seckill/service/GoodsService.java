@@ -2,7 +2,7 @@ package com.andy.seckill.service;
 
 import com.andy.seckill.domain.Goods;
 import com.andy.seckill.mapper.GoodsMapper;
-import com.andy.seckill.vo.GoodsDetailVO;
+import com.andy.seckill.vo.GoodsListVO;
 import com.andy.seckill.vo.GoodsVO;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +33,7 @@ public class GoodsService {
      *
      * @return
      */
-    public List<GoodsVO> list() {
+    public List<GoodsListVO> list() {
         return goodsMapper.list();
     }
 
@@ -44,7 +44,7 @@ public class GoodsService {
      * @param goodsId
      * @return
      */
-    public GoodsDetailVO findOne(Long goodsId) {
+    public GoodsVO findOne(Long goodsId) {
         return goodsMapper.findById(goodsId);
     }
 
