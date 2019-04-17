@@ -4,6 +4,7 @@ import com.andy.seckill.common.Result;
 import com.andy.seckill.service.UserService;
 import com.andy.seckill.vo.LoginVO;
 import com.andy.seckill.vo.UserVO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Leone
  * @since 2018-10-26
  **/
+@Slf4j
 @Controller
 @RequestMapping("/api/user")
 public class UserController {
@@ -49,8 +51,8 @@ public class UserController {
 
     @GetMapping("/code/{signal}")
     public void createValidateCode(@PathVariable("signal") String signal, HttpServletResponse response) {
+        log.info("signal: {}", signal);
         userService.createValidateCode(signal, response);
     }
-
 
 }
