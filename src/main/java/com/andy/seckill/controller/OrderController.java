@@ -1,7 +1,8 @@
 package com.andy.seckill.controller;
 
+import com.andy.seckill.common.VersionFlag;
 import com.andy.seckill.service.OrderService;
-import com.andy.seckill.vo.OrderItemVO;
+import com.andy.seckill.vo.OrderVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,11 +26,13 @@ public class OrderController {
         this.orderService = orderService;
     }
 
+    @VersionFlag(version = "v1.0.0")
     @GetMapping("/{orderId}")
     public String findOne(Model model, @PathVariable("orderId") Long orderId) {
-        OrderItemVO orderDetailVO = orderService.findOne(orderId);
-        model.addAttribute("orderDetail", orderDetailVO);
+        OrderVO orderVO = orderService.findOne(orderId);
+        model.addAttribute("order", orderVO);
         return "order_detail";
     }
+
 
 }

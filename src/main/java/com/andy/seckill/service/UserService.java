@@ -5,6 +5,7 @@ import com.andy.seckill.common.Result;
 import com.andy.seckill.domain.User;
 import com.andy.seckill.exception.ExceptionMessage;
 import com.andy.seckill.mapper.UserMapper;
+import com.andy.seckill.utils.ImgCodeUtil;
 import com.andy.seckill.vo.LoginVO;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 
 @Service
 public class UserService {
@@ -27,7 +29,6 @@ public class UserService {
 
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
-
 
     /**
      * 登录
@@ -57,8 +58,8 @@ public class UserService {
         return validateCode.equals(catchCode);
     }
 
+
     /**
-     *
      * @param userId
      * @return
      */
@@ -67,4 +68,19 @@ public class UserService {
         Assert.notNull(user, "用户不存在");
         return user;
     }
+
+
+    /**
+     * 生成二维码并存入缓存
+     *
+     * @param code
+     * @param response
+     */
+    public void createValidateCode(String code, HttpServletResponse response) {
+        String signal = String.valueOf(code.hashCode());
+        String validateCode = ImgCodeUtil.createValidateCode(response, 80, 20);
+        redisTemplate.opsForValue().set(RedisPrefix.VALIDATE_CODE_PREFIX + signal, validateCode);
+    }
+
+
 }
