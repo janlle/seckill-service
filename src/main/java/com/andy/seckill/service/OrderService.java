@@ -4,14 +4,16 @@ import com.andy.seckill.common.RedisPrefix;
 import com.andy.seckill.domain.Goods;
 import com.andy.seckill.domain.Order;
 import com.andy.seckill.domain.OrderItem;
-import com.andy.seckill.domain.User;
+import com.andy.seckill.exception.ExceptionMessage;
 import com.andy.seckill.mapper.OrderMapper;
 import com.andy.seckill.vo.OrderAddVO;
 import com.andy.seckill.vo.OrderItemVO;
 import com.andy.seckill.vo.OrderVO;
+import org.apache.shiro.util.Assert;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -40,29 +42,31 @@ public class OrderService {
      * @param orderAddVO
      * @return
      */
-    public OrderItemVO createOrder(OrderAddVO orderAddVO) {
-        Order order = new Order();
-        Date date = new Date();
-        order.setCreateTime(date);
-        order.setStatus(0);
-        order.setTotalAmount(0);
-        order.setUserId(orderAddVO.getUserId());
-
+    @Transactional
+    public OrderVO createOrder(OrderAddVO orderAddVO) {
         Goods goods = goodsService.findByGoodsId(orderAddVO.getGoodsId());
 
+        Order order = new Order();
+        order.setCreateTime(new Date());
+        order.setStatus(0);
+        order.setTotalAmount(goods.getGoodsPrice());
+        order.setUserId(orderAddVO.getUserId());
         // 保存订单
-        int result = orderMapper.save(order);
+        Long orderId = orderMapper.save(order);
 
-        // 保存详情
-        OrderItem orderDetail = orderDetailService.save(goods, order);
+        // 保存订单项
+        OrderItem orderItem = orderDetailService.save(goods, orderId);
+        OrderItemVO orderItemVO = new OrderItemVO();
 
-        OrderItemVO orderDetailVO = new OrderItemVO();
-        BeanUtils.copyProperties(orderDetail, orderDetailVO);
+        BeanUtils.copyProperties(orderItem, orderItemVO);
+
+        OrderVO orderVO = new OrderVO();
+        BeanUtils.copyProperties(order, orderItem);
+        orderVO.setOrderItemVO(orderItemVO);
 
         // 保存用户秒杀到的订单到redis中
-        redisTemplate.opsForValue().set(RedisPrefix.ORDER_PREFIX + orderAddVO.getUserId() + "-" + goods.getGoodsId(), order);
-
-        return orderDetailVO;
+        redisTemplate.opsForValue().set(RedisPrefix.ORDER_PREFIX + order.getUserId() + "-" + order.getOrderId(), orderVO);
+        return orderVO;
     }
 
 
@@ -72,13 +76,10 @@ public class OrderService {
      * @param orderId
      * @return
      */
-    public OrderItemVO findOne(Long orderId) {
+    public OrderVO findOne(Long orderId) {
         OrderVO orderVO = orderMapper.findOne(orderId);
-        OrderItemVO orderDetailVO = new OrderItemVO();
-        BeanUtils.copyProperties(orderVO, orderDetailVO);
-        User user = userService.findOne(orderVO.getUserId());
-
-        return orderDetailVO;
+        Assert.notNull(orderVO, ExceptionMessage.ORDER_NOT_EXIST.getMessage());
+        return orderVO;
     }
 
     /**

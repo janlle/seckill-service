@@ -1,7 +1,5 @@
 package com.andy.seckill.rabbitmq;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMqConfig {
 
+
     public static final String SEC_KILL_QUEUE = "sec-kill-queue";
 
     public static final String TOPIC_EXCHANGE = "topic-exchange";
@@ -25,7 +24,6 @@ public class RabbitMqConfig {
     public static final String HEADERS_EXCHANGE = "headers-exchange";
 
     public static final String DIRECT_EXCHANGE = "direct-exchange";
-
 
 
     @Bean

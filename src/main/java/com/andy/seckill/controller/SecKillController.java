@@ -62,7 +62,7 @@ public class SecKillController implements InitializingBean {
             return;
         } else {
             list.forEach(e -> {
-                redisTemplate.opsForValue().set(RedisPrefix.GOODS_PREFIX + e.getGoodsId(), e.getStock());
+                redisTemplate.opsForValue().set(RedisPrefix.GOODS_PREFIX + e.getGoodsId(), e.getGoodsStock());
                 localOverMap.put(e.getGoodsId(), false);
             });
         }

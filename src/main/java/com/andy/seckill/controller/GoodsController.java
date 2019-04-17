@@ -37,7 +37,7 @@ public class GoodsController {
     }
 
     @ResponseBody
-    @GetMapping("/detail/{goodsId}")
+    @GetMapping("/{goodsId}")
     public Result detail(@PathVariable Long goodsId,
                          HttpServletRequest request,
                          HttpServletResponse response,

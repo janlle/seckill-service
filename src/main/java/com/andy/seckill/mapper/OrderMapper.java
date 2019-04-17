@@ -21,6 +21,6 @@ public interface OrderMapper {
 
     @Insert("insert into t_order(user_id,total_price,status,create_time,pay_time) values(#{order.userId},#{order.totalPrice},#{order.status},#{order.createTime},#{order.payTime})")
     @SelectKey(keyColumn = "order_id", keyProperty = "orderId", resultType = Long.class, before = false, statement = "select last_insert_id()")
-    int save(@Param("order")Order order);
+    Long save(@Param("order")Order order);
 
 }

@@ -6,6 +6,7 @@ import com.andy.seckill.rabbitmq.RabbitMqSender;
 import com.andy.seckill.rabbitmq.SecKillMessage;
 import com.andy.seckill.vo.OrderAddVO;
 import com.andy.seckill.vo.OrderItemVO;
+import com.andy.seckill.vo.OrderVO;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -44,7 +45,7 @@ public class SecKillService {
      * @param orderAddVO
      */
     @Transactional
-    public OrderItemVO kill(OrderAddVO orderAddVO) {
+    public OrderVO kill(OrderAddVO orderAddVO) {
         boolean flag = goodsService.inventoryStock(orderAddVO.getGoodsId());
         if (flag) {
             // 生成订单
@@ -52,8 +53,6 @@ public class SecKillService {
         } else {
             return null;
         }
-
-
     }
 
     /**

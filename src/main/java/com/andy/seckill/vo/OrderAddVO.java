@@ -16,6 +16,14 @@ public class OrderAddVO implements Serializable {
 
     private Long goodsId;
 
+    public OrderAddVO(Long userId, Long goodsId) {
+        this.userId = userId;
+        this.goodsId = goodsId;
+    }
+
+    public OrderAddVO() {
+    }
+
     public Long getUserId() {
         return userId;
     }

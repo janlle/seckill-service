@@ -43,7 +43,6 @@ public class RabbitMqReceiver {
     }
 
     /**
-     * <p> 接受消息
      * 1.判断商品库存
      * 2.判断用户是否秒杀到
      *
@@ -51,29 +50,27 @@ public class RabbitMqReceiver {
      */
     @RabbitListener(queues = RabbitMqConfig.SEC_KILL_QUEUE)
     public void receive(String message) throws Exception {
-        log.info("receive message:{}" + message);
+        log.info("receive message: {}" + message);
         SecKillMessage secKillMessage = objectMapper.readValue(message, SecKillMessage.class);
         User user = secKillMessage.getUser();
         Long goodsId = secKillMessage.getGoodsId();
 
         // 查找商品判断库存情况
         GoodsDetailVO goods = goodsService.findOne(goodsId);
-        int stock = goods.getStock();
+        int stock = goods.getGoodsStock();
         if (stock <= 0) {
             return;
         }
 
-        //判断是否已经秒杀到了
+        // 判断是否已经秒杀到了
         OrderVO order = orderService.findByUserIdAndGoodsId(user.getUserId(), goodsId);
         if (order != null) {
             return;
         }
 
-        OrderAddVO orderAddVO = new OrderAddVO();
-        orderAddVO.setGoodsId(secKillMessage.getGoodsId());
-        orderAddVO.setUserId(secKillMessage.getUser().getUserId());
+        OrderAddVO orderAddVO = new OrderAddVO(user.getUserId(),goodsId);
 
-        //减库存 下订单 写入秒杀订单
+        // 减库存，创建订单
         secKillService.kill(orderAddVO);
     }
 

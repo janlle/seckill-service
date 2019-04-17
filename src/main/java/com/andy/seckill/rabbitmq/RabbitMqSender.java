@@ -31,14 +31,13 @@ public class RabbitMqSender {
      * @throws Exception
      */
     public void send(SecKillMessage message) {
-        String msg = null;
         try {
-            msg = objectMapper.writeValueAsString(message);
+            String msg = objectMapper.writeValueAsString(message);
+            amqpTemplate.convertAndSend(RabbitMqConfig.SEC_KILL_QUEUE, msg);
+            log.info("send message: " + msg);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        log.info("send message:" + msg);
-        amqpTemplate.convertAndSend(RabbitMqConfig.SEC_KILL_QUEUE, msg);
     }
 
 

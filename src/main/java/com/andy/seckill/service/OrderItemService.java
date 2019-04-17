@@ -31,19 +31,18 @@ public class OrderItemService {
      * 保存订单详情
      *
      * @param goods
-     * @param order
+     * @param orderId
      */
-    public OrderItem save(Goods goods, Order order) {
+    public OrderItem save(Goods goods, Long orderId) {
         OrderItem orderDetail = new OrderItem();
         orderDetail.setGoodsCount(1);
         orderDetail.setCreateTime(new Date());
         orderDetail.setGoodsId(goods.getGoodsId());
-        orderDetail.setOrderId(order.getOrderId());
+        orderDetail.setOrderId(orderId);
         orderDetail.setGoodsPicture(goods.getGoodsPicture());
         orderDetail.setGoodsPrice(goods.getDiscountPrice());
         orderDetailMapper.save(orderDetail);
         return orderDetail;
     }
-
 
 }

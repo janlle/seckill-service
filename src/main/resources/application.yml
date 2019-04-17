@@ -22,9 +22,9 @@ spring:
 # mysql 配置
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/seckill?&useSSL=false
-    username: xxxx
-    password: xxxx
+    url: jdbc:mysql://39.108.125.41:3306/seckill?&useSSL=false
+    username: root
+    password: cloud
 
 # thymeleaf 配置
   thymeleaf:
@@ -43,7 +43,7 @@ spring:
     port: 5672
     username: cloud
     password: cloud
-    virtual-host: /cloud
+    virtual-host: /mc
 
 
 # mybatis 配置
@@ -74,7 +74,7 @@ mybatis:
     # 是否可以使用列的别名 (取决于驱动的兼容性) default:true
     use-column-label: true
     # 指定 Mybatis 创建具有延迟加载能力的对象所用到的代理工具。CGLIB|JAVASSIST, default(JAVASSIST)
-    proxy-factory: CGLIB
+    # proxy-factory: CGLIB
     # 指定 MyBatis 增加到日志名称的前缀。任何字符串
     log-prefix: test
   mapper-locations: classpath:mybatis/mappers/*.xml

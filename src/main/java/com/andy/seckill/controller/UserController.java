@@ -2,10 +2,12 @@ package com.andy.seckill.controller;
 
 import com.andy.seckill.common.Result;
 import com.andy.seckill.service.UserService;
+import com.andy.seckill.vo.LoginVO;
 import com.andy.seckill.vo.UserVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -29,8 +31,8 @@ public class UserController {
         return Result.success(vo);
     }
 
-    @GetMapping("/login")
-    public String toLogin() {
+    @GetMapping("/login.do")
+    public String loginPage() {
         return "login";
     }
 
@@ -40,9 +42,9 @@ public class UserController {
     }
 
     @ResponseBody
-    @GetMapping("/hello")
-    public Result hello() {
-        return Result.success("");
+    @GetMapping("/login")
+    public Result login(@RequestBody LoginVO loginVO) {
+        return userService.login(loginVO);
     }
 
 }

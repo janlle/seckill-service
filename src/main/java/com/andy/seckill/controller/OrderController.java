@@ -3,10 +3,18 @@ package com.andy.seckill.controller;
 import com.andy.seckill.service.OrderService;
 import com.andy.seckill.vo.OrderItemVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-@RestController
+/**
+ * <p>
+ *
+ * @author leone
+ **/
+@Controller
 @RequestMapping("/api/order")
 public class OrderController {
 
@@ -17,24 +25,11 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @GetMapping("/detail/{orderId}")
-    public String detail(Model model, @PathVariable("orderId") Long orderId) {
+    @GetMapping("/{orderId}")
+    public String findOne(Model model, @PathVariable("orderId") Long orderId) {
         OrderItemVO orderDetailVO = orderService.findOne(orderId);
         model.addAttribute("orderDetail", orderDetailVO);
         return "order_detail";
     }
-
-    @PostMapping("/create")
-    public String create() {
-
-        return null;
-    }
-
-    @PostMapping("/finish")
-    public String finish() {
-
-        return null;
-    }
-
 
 }
