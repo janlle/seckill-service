@@ -16,7 +16,7 @@ import javax.annotation.Resource;
  **/
 @Slf4j
 @Component
-public class RabbitMQSender {
+public class RabbitMqSender {
 
     @Resource
     private AmqpTemplate amqpTemplate;
@@ -38,7 +38,7 @@ public class RabbitMQSender {
             e.printStackTrace();
         }
         log.info("send message:" + msg);
-        amqpTemplate.convertAndSend(RabbitMQConfig.SEC_KILL_QUEUE, msg);
+        amqpTemplate.convertAndSend(RabbitMqConfig.SEC_KILL_QUEUE, msg);
     }
 
 

@@ -5,7 +5,7 @@ import com.andy.seckill.common.MessageEnum;
 import com.andy.seckill.common.RedisPrefix;
 import com.andy.seckill.common.Response;
 import com.andy.seckill.domain.User;
-import com.andy.seckill.rabbitmq.RabbitMQSender;
+import com.andy.seckill.rabbitmq.RabbitMqSender;
 import com.andy.seckill.service.GoodsService;
 import com.andy.seckill.service.OrderService;
 import com.andy.seckill.service.SecKillService;
@@ -46,7 +46,7 @@ public class SecKillController implements InitializingBean {
     private RedisTemplate<String, Object> redisTemplate;
 
     @Resource
-    private RabbitMQSender rabbitMQSender;
+    private RabbitMqSender rabbitMQSender;
 
     private HashMap<Long, Boolean> localOverMap = new HashMap<>();
 

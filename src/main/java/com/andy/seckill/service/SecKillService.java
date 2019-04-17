@@ -2,7 +2,7 @@ package com.andy.seckill.service;
 
 import com.andy.seckill.common.RedisPrefix;
 import com.andy.seckill.domain.User;
-import com.andy.seckill.rabbitmq.RabbitMQSender;
+import com.andy.seckill.rabbitmq.RabbitMqSender;
 import com.andy.seckill.rabbitmq.SecKillMessage;
 import com.andy.seckill.vo.OrderAddVO;
 import com.andy.seckill.vo.OrderItemVO;
@@ -33,7 +33,7 @@ public class SecKillService {
     private RedisTemplate<String, Object> redisTemplate;
 
     @Resource
-    private RabbitMQSender rabbitMQSender;
+    private RabbitMqSender rabbitMQSender;
 
 
     /**

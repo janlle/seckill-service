@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
  * @since 2018-11-05
  **/
 @Configuration
-public class RabbitMQConfig {
+public class RabbitMqConfig {
 
     public static final String SEC_KILL_QUEUE = "sec-kill-queue";
 

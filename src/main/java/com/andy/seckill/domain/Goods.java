@@ -22,17 +22,17 @@ public class Goods implements Serializable {
     /**
      * 商品名称
      */
-    private String name;
+    private String goodsName;
 
     /**
      * 商品标题
      */
-    private String title;
+    private String goodsTitle;
 
     /**
      * 商品图片
      */
-    private String picture;
+    private String goodsPicture;
 
     /**
      * 商品详情
@@ -47,17 +47,17 @@ public class Goods implements Serializable {
     /**
      * 商品价格
      */
-    private Integer price;
+    private Integer goodsPrice;
 
     /**
      * 商品库存
      */
-    private Integer stock;
+    private Integer goodsStock;
 
     /**
      * 商品状态
      */
-    private Integer status;
+    private Integer goodsStatus;
 
     /**
      * 秒杀开始时间
@@ -68,6 +68,78 @@ public class Goods implements Serializable {
      * 秒杀结束时间
      */
     private Date endTime;
+
+    public Long getGoodsId() {
+        return goodsId;
+    }
+
+    public void setGoodsId(Long goodsId) {
+        this.goodsId = goodsId;
+    }
+
+    public String getGoodsName() {
+        return goodsName;
+    }
+
+    public void setGoodsName(String goodsName) {
+        this.goodsName = goodsName;
+    }
+
+    public String getGoodsTitle() {
+        return goodsTitle;
+    }
+
+    public void setGoodsTitle(String goodsTitle) {
+        this.goodsTitle = goodsTitle;
+    }
+
+    public String getGoodsPicture() {
+        return goodsPicture;
+    }
+
+    public void setGoodsPicture(String goodsPicture) {
+        this.goodsPicture = goodsPicture;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getDiscountPrice() {
+        return discountPrice;
+    }
+
+    public void setDiscountPrice(Integer discountPrice) {
+        this.discountPrice = discountPrice;
+    }
+
+    public Integer getGoodsPrice() {
+        return goodsPrice;
+    }
+
+    public void setGoodsPrice(Integer goodsPrice) {
+        this.goodsPrice = goodsPrice;
+    }
+
+    public Integer getGoodsStock() {
+        return goodsStock;
+    }
+
+    public void setGoodsStock(Integer goodsStock) {
+        this.goodsStock = goodsStock;
+    }
+
+    public Integer getGoodsStatus() {
+        return goodsStatus;
+    }
+
+    public void setGoodsStatus(Integer goodsStatus) {
+        this.goodsStatus = goodsStatus;
+    }
 
     public Date getStartTime() {
         return startTime;
@@ -83,77 +155,5 @@ public class Goods implements Serializable {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
-    }
-
-    public Long getGoodsId() {
-        return goodsId;
-    }
-
-    public void setGoodsId(Long goodsId) {
-        this.goodsId = goodsId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getPicture() {
-        return picture;
-    }
-
-    public void setPicture(String picture) {
-        this.picture = picture;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public void setPrice(Integer price) {
-        this.price = price;
-    }
-
-    public Integer getStock() {
-        return stock;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public Integer getDiscountPrice() {
-        return discountPrice;
-    }
-
-    public void setDiscountPrice(Integer discountPrice) {
-        this.discountPrice = discountPrice;
     }
 }

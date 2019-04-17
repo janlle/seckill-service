@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
  **/
 @Slf4j
 @Component
-public class RabbitMQReceiver {
+public class RabbitMqReceiver {
 
     private OrderService orderService;
 
@@ -32,7 +32,7 @@ public class RabbitMQReceiver {
     private ObjectMapper objectMapper;
 
     @Autowired
-    public RabbitMQReceiver(OrderService orderService,
+    public RabbitMqReceiver(OrderService orderService,
                             GoodsService goodsService,
                             SecKillService secKillService,
                             ObjectMapper objectMapper) {
@@ -49,7 +49,7 @@ public class RabbitMQReceiver {
      *
      * @param message
      */
-    @RabbitListener(queues = RabbitMQConfig.SEC_KILL_QUEUE)
+    @RabbitListener(queues = RabbitMqConfig.SEC_KILL_QUEUE)
     public void receive(String message) throws Exception {
         log.info("receive message:{}" + message);
         SecKillMessage secKillMessage = objectMapper.readValue(message, SecKillMessage.class);
