@@ -62,7 +62,7 @@ public class RabbitMqReceiver {
             return;
         }
 
-        // 判断是否已经秒杀到了
+        // 校验用户是否秒杀到同一款商品
         OrderVO order = orderService.findByUserIdAndGoodsId(user.getUserId(), goodsId);
         if (order != null) {
             return;

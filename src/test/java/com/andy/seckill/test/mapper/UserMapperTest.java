@@ -32,8 +32,8 @@ public class UserMapperTest {
     @Test
     public void saveUserTest() {
         Date date = new Date();
-        for (int i = 0; i < 10000; i++) {
-            userMapper.save(new User(String.valueOf(10016212 + i), "james-" + i, UUID.randomUUID().toString().replace("-", "").substring(16), "广东省 广州市 天河区", random.nextInt(30) + 18, "1596236" + random.nextInt(900) + 100, date, false));
+        for (int i = 0; i < 5000; i++) {
+            userMapper.save(new User(String.valueOf(10026212 + i), "james-" + i, UUID.randomUUID().toString().replace("-", "").substring(16), "广东省 广州市 天河区", random.nextInt(30) + 18, "1596236" + random.nextInt(900) + 100, date, false));
         }
     }
 

@@ -5,7 +5,6 @@ import com.andy.seckill.domain.User;
 import com.andy.seckill.rabbitmq.RabbitMqSender;
 import com.andy.seckill.rabbitmq.SecKillMessage;
 import com.andy.seckill.vo.OrderVO;
-import com.andy.seckill.vo.UserVO;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -47,14 +46,10 @@ public class SecKillService {
      */
     @Transactional
     public synchronized void kill(Long goodsId, User user) {
-        // 校验用户是否秒杀到同一款商品
-        OrderVO order = orderService.findByUserIdAndGoodsId(user.getUserId(), goodsId);
-        if (!ObjectUtils.isEmpty(order)) {
-            boolean flag = goodsService.inventoryStock(goodsId);
-            if (flag) {
-                // 创建订单
-                orderService.createOrder(goodsId, user);
-            }
+        boolean flag = goodsService.inventoryStock(goodsId);
+        if (flag) {
+            // 创建订单
+            orderService.createOrder(goodsId, user);
         }
     }
 

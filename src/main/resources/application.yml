@@ -45,6 +45,11 @@ spring:
     password: cloud
     virtual-host: /mc
 
+logging:
+  level:
+    org:
+      apache:
+        http: info
 
 # mybatis 配置
 mybatis:

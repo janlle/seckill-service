@@ -12,6 +12,14 @@ public class SecKillVO {
 
     private Long userId;
 
+    public SecKillVO() {
+    }
+
+    public SecKillVO(Long goodsId, Long userId) {
+        this.goodsId = goodsId;
+        this.userId = userId;
+    }
+
     public Long getGoodsId() {
         return goodsId;
     }
