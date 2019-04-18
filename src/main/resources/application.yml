@@ -50,7 +50,7 @@ spring:
 mybatis:
   configuration:
     # 全局映射器启用缓存
-    cache-enabled: true
+    cache-enabled: false
     # 当启用时，有延迟加载属性的对象在被调用时将会完全加载任意属性。否则，每种属性将会按需要加载。
     aggressive-lazy-loading: false
     # 全局启用或禁用延迟加载。当禁用时，所有关联对象都会即时加载
@@ -62,7 +62,7 @@ mybatis:
     # 数据库执行超时时间
     default-statement-timeout: 25000
     # 打印sql语句
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     # 允许JDBC 生成主键。需要驱动器支持。如果设为了true，这个设置将强制使用被生成的主键，有一些驱动器不兼容不过仍然可以执行。  default:false
     use-generated-keys: true
     # 设置但JDBC类型为空时,某些驱动程序 要指定值,default:OTHER，插入空值时不需要指定类型

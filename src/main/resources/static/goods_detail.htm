@@ -16,6 +16,7 @@
             height: 100%;
             width: 100%;
         }
+
         #goodsList td {
             border-top: 1px solid #39503f61;
         }
@@ -25,10 +26,6 @@
 
 <div class="panel panel-default" style="height:100%;background-color:rgba(222,222,222,0.8)">
     <div class="panel-heading">秒杀商品详情</div>
-    <!--<div class="panel-body">-->
-    <!--<span id="userTip"> 您还没有登录，请登陆后再操作<br/></span>-->
-    <!--<span>没有收货地址的提示。。。</span>-->
-    <!--</div>-->
     <table class="table" id="goodsList">
         <tr>
             <td>商品名称</td>
@@ -60,7 +57,7 @@
                         <img id="verifyCodeImg" width="80" height="32" style="display:none"
                              onclick="refreshVerifyCode()"/>
                         <input id="verifyCode" class="form-control" style="display:none"/>
-                        <button class="btn btn-primary" type="button" id="buyButton" onclick="getKillPath()">立即秒杀
+                        <button class="btn btn-primary" type="button" id="buyButton" onclick="startKill()">立即秒杀
                         </button>
                     </div>
                 </div>
@@ -83,36 +80,11 @@
 </div>
 </body>
 <script>
-
-
     $(function () {
         //countDown();
         getDetail();
     });
 
-    function getKillPath() {
-        var goodsId = $("#goodsId").val();
-        g_showLoading();
-        $.ajax({
-            url: "/api/kill/path",
-            type: "GET",
-            data: {
-                goodsId: goodsId,
-                verifyCode: $("#verifyCode").val()
-            },
-            success: function (data) {
-                if (data.code == 0) {
-                    var path = data.data;
-                    doKill(path);
-                } else {
-                    layer.msg(data.msg);
-                }
-            },
-            error: function () {
-                layer.msg("客户端请求有误");
-            }
-        });
-    }
 
     function getKillResult(goodsId) {
         g_showLoading();
@@ -151,15 +123,44 @@
         });
     }
 
-    function doKill(path) {
+    function startKill() {
+        var goodsId = $("#goodsId").val();
+        g_showLoading();
         $.ajax({
-            url: "/api/kill/" + path + "/start",
-            type: "POST",
+            url: "/api/kill/path",
+            type: "GET",
             data: {
-                goodsId: $("#goodsId").val()
+                goodsId: goodsId,
+                verifyCode: $("#verifyCode").val()
             },
             success: function (data) {
-                if (data.code == 0) {
+                if (data.code == 20000) {
+                    var path = data.data;
+                    doKill(path);
+                } else {
+                    layer.msg(data.msg);
+                }
+            },
+            error: function () {
+                layer.msg("客户端请求有误");
+            }
+        });
+    }
+
+
+    /**JSON.stringify(1)
+     * 开始秒杀
+     */
+    function doKill(path) {
+        $.ajax({
+            url: "/api/" + path + "/kill",
+            type: "POST",
+            data: {
+                goodsId: 1,
+                userId: 2
+            },
+            success: function (data) {
+                if (data.code == 20000) {
                     //window.location.href="/order_detail.htm?orderId="+data.data.id;
                     getKillResult($("#goodsId").val());
                 } else {
@@ -184,15 +185,15 @@
         if (user) {
             $("#userTip").hide();
         }
-        $("#name").text(data.name);
-        $("#title").text(data.title);
-        $("#picture").attr("src", data.picture);
+        $("#name").text(data.goodsName);
+        $("#title").text(data.goodsTitle);
+        $("#picture").attr("src", data.goodsPicture);
         $("#startTime").text(new Date(data.startTime).format("yyyy-MM-dd hh:mm:ss"));
         $("#remainSeconds").val(remainSeconds);
         $("#goodsId").val(data.goodsId);
-        $("#price").text(data.price);
+        $("#price").text(data.goodsPrice);
         $("#discountPrice").text(data.discountPrice);
-        $("#stock").text(data.stock);
+        $("#stock").text(data.goodsStock);
         countDown();
     }
 
@@ -236,7 +237,7 @@
                 clearTimeout(timeout);
             }
             $("#secKillTip").html("秒杀进行中");
-            $("#verifyCodeImg").attr("src", "/api/user/verifyCode?goodsId=" + $("#goodsId").val());
+            $("#verifyCodeImg").attr("src", "/api/user/verifyCode/" + $("#goodsId").val());
             $("#verifyCodeImg").show();
             $("#verifyCode").show();
         } else {//秒杀已经结束
@@ -248,7 +249,9 @@
     }
 
     function refreshVerifyCode() {
-        $("#verifyCodeImg").attr("src", "/api/user/verifyCode/" + $("#goodsId").val() + "&timestamp=" + new Date().getTime());
+        $("#verifyCodeImg").attr("src", "/api/user/verifyCode/" + $("#goodsId").val() + "?timestamp=" + new Date().getTime());
     }
+
+
 </script>
 </html>

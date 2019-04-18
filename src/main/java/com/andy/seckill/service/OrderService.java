@@ -90,6 +90,6 @@ public class OrderService {
      * @return
      */
     public OrderVO findByUserIdAndGoodsId(Long userId, Long goodsId) {
-        return orderMapper.findByUserIdAndOrderId(userId, goodsId);
+        return orderMapper.findByUserIdAndGoodsId(userId, goodsId);
     }
 }

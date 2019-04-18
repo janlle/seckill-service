@@ -38,16 +38,14 @@ public class GoodsController {
 
     @ResponseBody
     @GetMapping("/{goodsId}")
-    public Result detail(@PathVariable Long goodsId,
-                         HttpServletRequest request,
-                         HttpServletResponse response,
-                         Model model) {
+    public Result<GoodsVO> findOne(@PathVariable Long goodsId,
+                                   HttpServletRequest request,
+                                   HttpServletResponse response) {
 
-        GoodsVO goodsDetailVO = goodsService.findOne(goodsId);
-        model.addAttribute("goods", goodsDetailVO);
+        GoodsVO goodsVO = goodsService.findOne(goodsId);
 
-        long startTime = goodsDetailVO.getStartTime().getTime();
-        long endTime = goodsDetailVO.getEndTime().getTime();
+        long startTime = goodsVO.getStartTime().getTime();
+        long endTime = goodsVO.getEndTime().getTime();
         long nowTime = System.currentTimeMillis();
 
         int secKillStatus;
@@ -67,12 +65,10 @@ public class GoodsController {
             secKillStatus = 1;
             remainSeconds = 0;
         }
-//        model.addAttribute("secKillStatus", secKillStatus);
-//        model.addAttribute("remainSeconds", remainSeconds);
-//        return "goods_detail";
-        goodsDetailVO.setSecKillStatus(secKillStatus);
-        goodsDetailVO.setRemainSeconds(remainSeconds);
-        return Result.success(goodsDetailVO);
+
+        goodsVO.setSecKillStatus(secKillStatus);
+        goodsVO.setRemainSeconds(remainSeconds);
+        return Result.success(goodsVO);
     }
 
 

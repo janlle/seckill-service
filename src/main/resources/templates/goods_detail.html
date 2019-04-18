@@ -18,11 +18,11 @@
     <table class="table" id="goodsList">
         <tr>
             <td>商品名称</td>
-            <td colspan="3" th:text="${goods.name}"></td>
+            <td colspan="3" th:text="${goods.goodsName}"></td>
         </tr>
         <tr>
             <td>商品图片</td>
-            <td colspan="3"><img th:src="@{${goods.picture}}" width="200" height="200"/></td>
+            <td colspan="3"><img th:src="@{${goods.goodsPicture}}" width="200" height="200"/></td>
         </tr>
         <tr>
             <td>秒杀开始时间</td>
@@ -42,7 +42,7 @@
         </tr>
         <tr>
             <td>商品原价</td>
-            <td colspan="3" th:text="${goods.price}"></td>
+            <td colspan="3" th:text="${goods.goodsPrice}"></td>
         </tr>
         <tr>
             <td>秒杀价</td>
@@ -50,7 +50,7 @@
         </tr>
         <tr>
             <td>库存数量</td>
-            <td colspan="3" th:text="${goods.stock}"></td>
+            <td colspan="3" th:text="${goods.goodsStock}"></td>
         </tr>
     </table>
 </div>

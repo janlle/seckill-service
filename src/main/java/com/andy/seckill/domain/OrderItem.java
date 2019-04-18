@@ -11,7 +11,6 @@ import java.util.Date;
  * @author Leone
  * @since 2018-10-26
  **/
-@Data
 public class OrderItem implements Serializable {
 
     private static final long serialVersionUID = 3502010167376271167L;
@@ -82,14 +81,6 @@ public class OrderItem implements Serializable {
         this.goodsPicture = goodsPicture;
     }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
     public String getGoodsDescription() {
         return goodsDescription;
     }
@@ -104,5 +95,13 @@ public class OrderItem implements Serializable {
 
     public void setGoodsTitle(String goodsTitle) {
         this.goodsTitle = goodsTitle;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

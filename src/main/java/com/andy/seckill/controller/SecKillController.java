@@ -73,7 +73,8 @@ public class SecKillController implements InitializingBean {
 
     @PostMapping(value = "/{path}/kill")
     public Result secKill(Model model, @RequestParam Long goodsId, @RequestParam Long userId, @PathVariable("path") String path) {
-
+        System.out.println(goodsId);
+        System.out.println(userId);
         // 验证path
         boolean check = secKillService.checkPath(path);
         if (!check) {
@@ -86,7 +87,7 @@ public class SecKillController implements InitializingBean {
         }
 
         // 预减库存
-        Long goodsCount = (Long) redisTemplate.opsForValue().get(RedisPrefix.GOODS_PREFIX + goodsId);
+        Integer goodsCount = (Integer) redisTemplate.opsForValue().get(RedisPrefix.GOODS_PREFIX + goodsId);
 
         if (!ObjectUtils.isEmpty(goodsCount) && goodsCount < 0) {
             localOverMap.put(goodsId, true);
@@ -101,7 +102,7 @@ public class SecKillController implements InitializingBean {
 
         // 进入消息队列排队中
         secKillService.sendQueue(goodsId);
-        return Result.success(0);
+        return Result.success(null);
     }
 
 
@@ -118,8 +119,8 @@ public class SecKillController implements InitializingBean {
 
     @ResponseBody
     @GetMapping("/kill/path")
-    public String path() {
-        return Objects.requireNonNull(redisTemplate.opsForValue().get(RedisPrefix.SEC_KILL_PATH_PREFIX)).toString();
+    public Result path() {
+        return Result.success(Objects.requireNonNull(redisTemplate.opsForValue().get(RedisPrefix.SEC_KILL_PATH_PREFIX)).toString());
     }
 
 

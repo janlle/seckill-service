@@ -38,6 +38,8 @@ public class OrderItemService {
         orderItem.setCreateTime(new Date());
         orderItem.setGoodsId(goods.getGoodsId());
         orderItem.setOrderId(orderId);
+        orderItem.setGoodsDescription(goods.getDescription());
+        orderItem.setGoodsTitle(goods.getGoodsTitle());
         orderItem.setGoodsPicture(goods.getGoodsPicture());
         orderItem.setGoodsPrice(goods.getDiscountPrice());
         orderDetailMapper.save(orderItem);

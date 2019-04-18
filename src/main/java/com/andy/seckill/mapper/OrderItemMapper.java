@@ -14,7 +14,7 @@ import org.apache.ibatis.annotations.*;
 public interface OrderItemMapper {
 
     @Insert("insert into t_order_item(goods_id, order_id, goods_picture, goods_price, goods_count, goods_description, goods_title, create_time)" +
-                             " values(item.goodsId, item.orderId, item.goodsPicture, item.goodsPrice, item.goodsCount, item.goodsDescription, goodsTitle item.createTime)")
+                             " values(#{item.goodsId}, #{item.orderId}, #{item.goodsPicture}, #{item.goodsPrice}, #{item.goodsCount}, #{item.goodsDescription}, #{item.goodsTitle}, #{item.createTime})")
     @SelectKey(keyColumn = "order_item_id", keyProperty = "orderItemId", resultType = Long.class, before = false, statement = "select last_insert_id()")
     Long save(@Param("item") OrderItem orderItem);
 
