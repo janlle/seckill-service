@@ -42,7 +42,8 @@ public class OrderItemService {
         orderItem.setGoodsTitle(goods.getGoodsTitle());
         orderItem.setGoodsPicture(goods.getGoodsPicture());
         orderItem.setGoodsPrice(goods.getDiscountPrice());
-        orderDetailMapper.save(orderItem);
+        Long orderItemId = orderDetailMapper.save(orderItem);
+        orderItem.setOrderItemId(orderItemId);
         return orderItem;
     }
 

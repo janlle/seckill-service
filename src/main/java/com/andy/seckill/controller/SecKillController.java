@@ -4,18 +4,18 @@ package com.andy.seckill.controller;
 import com.andy.seckill.common.RedisPrefix;
 import com.andy.seckill.common.Result;
 import com.andy.seckill.common.VersionFlag;
-import com.andy.seckill.domain.User;
 import com.andy.seckill.exception.ExceptionMessage;
 import com.andy.seckill.rabbitmq.RabbitMqSender;
 import com.andy.seckill.service.GoodsService;
 import com.andy.seckill.service.OrderService;
 import com.andy.seckill.service.SecKillService;
 import com.andy.seckill.vo.GoodsListVO;
+import com.andy.seckill.vo.OrderVO;
+import com.andy.seckill.vo.SecKillVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,24 +43,17 @@ public class SecKillController implements InitializingBean {
     private GoodsService goodsService;
 
     @Resource
-    private OrderService orderService;
-
-    @Resource
     private RedisTemplate<String, Object> redisTemplate;
 
-    @Resource
-    private RabbitMqSender rabbitMQSender;
 
     // 用来过滤商品是否存在或是否秒杀完毕
     private HashMap<Long, Boolean> localOverMap = new HashMap<>();
 
     /**
      * 初始化商品数据到 redis 中和本地 map 中
-     *
-     * @throws Exception
      */
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         List<GoodsListVO> list = goodsService.list();
         if (ObjectUtils.isEmpty(list)) {
             return;
@@ -78,7 +71,7 @@ public class SecKillController implements InitializingBean {
     @VersionFlag(version = "v2.0")
     @ResponseBody
     @PostMapping(value = "/{path}/kill")
-    public Result secKill(Model model, @RequestParam(defaultValue = "1") Long goodsId, @RequestParam(defaultValue = "1") Long userId, @PathVariable("path") String path) {
+    public Result secKill(@RequestBody SecKillVO secKillVO, @PathVariable("path") String path) {
         // 验证path
         boolean check = secKillService.checkPath(path);
         if (!check) {
@@ -86,43 +79,46 @@ public class SecKillController implements InitializingBean {
         }
 
         // 验证商品是否在被秒杀，或商品是否被秒杀完
-        Boolean flag = localOverMap.get(goodsId);
+        Boolean flag = localOverMap.get(secKillVO.getGoodsId());
         if (!ObjectUtils.isEmpty(flag) && flag) {
             log.info(ExceptionMessage.NOT_GOODS_KILL_OR_GOODS_EMPTY.getMessage());
             return Result.error(ExceptionMessage.NOT_GOODS_KILL_OR_GOODS_EMPTY);
         }
 
         // 查询redis中商品库存
-        Integer goodsCount = (Integer) redisTemplate.opsForValue().get(RedisPrefix.GOODS_PREFIX + goodsId);
+        Integer goodsCount = (Integer) redisTemplate.opsForValue().get(RedisPrefix.GOODS_PREFIX + secKillVO.getGoodsId());
 
         // 在缓存中预减库存
         if (!ObjectUtils.isEmpty(goodsCount)) {
             if (goodsCount > 0) {
-                redisTemplate.opsForValue().set(RedisPrefix.GOODS_PREFIX + goodsId, goodsCount - 1);
-                log.info("预减redis中商品数量 goodsId: {}", goodsId);
+                log.info("预减redis中商品数量 goodsId: {} goodsCount: {}", secKillVO.getGoodsId(), goodsCount - 1);
+                redisTemplate.opsForValue().set(RedisPrefix.GOODS_PREFIX + secKillVO.getGoodsId(), goodsCount - 1);
             } else {
-                localOverMap.put(goodsId, true);
-                log.info("设置内存缓存中商品标记为不可被秒杀 goodsId: {}", goodsId);
+                localOverMap.put(secKillVO.getGoodsId(), true);
+                log.info("设置内存缓存中商品标记为不可被秒杀 goodsId: {} goodsCount: {}", secKillVO.getGoodsId(), goodsCount);
                 return Result.error(ExceptionMessage.GOODS_EMPTY);
             }
         }
 
         // 进入消息队列排队中
-        secKillService.sendQueue(goodsId);
-        return Result.success(null);
+        secKillService.sendQueue(secKillVO.getGoodsId(), secKillVO.getUserId());
+        return Result.success(ExceptionMessage.SEC_KILL_SUCCESS.getMessage());
     }
 
 
     /**
-     * 0：排队中，1：成功，-1：秒杀失败
+     * code 10000：排队中，20000：成功，40000：秒杀失败
      */
     @ResponseBody
     @GetMapping("/kill/result")
-    public Result<Long> result(Model model, @RequestParam Long userId, @RequestParam Long goodsId) {
-        model.addAttribute("user", new User());
-        Long result = secKillService.result(userId, goodsId);
+    public Result result(@RequestParam Long userId, @RequestParam Long goodsId) {
+        OrderVO result = secKillService.result(userId, goodsId);
+        if (ObjectUtils.isEmpty(result)) {
+            return Result.error(ExceptionMessage.SEC_KILL_ERROR);
+        }
         return Result.success(result);
     }
+
 
     @ResponseBody
     @GetMapping("/kill/path")

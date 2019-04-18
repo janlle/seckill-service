@@ -4,9 +4,9 @@ import com.andy.seckill.common.RedisPrefix;
 import com.andy.seckill.domain.Goods;
 import com.andy.seckill.domain.Order;
 import com.andy.seckill.domain.OrderItem;
+import com.andy.seckill.domain.User;
 import com.andy.seckill.exception.ExceptionMessage;
 import com.andy.seckill.mapper.OrderMapper;
-import com.andy.seckill.vo.OrderAddVO;
 import com.andy.seckill.vo.OrderItemVO;
 import com.andy.seckill.vo.OrderVO;
 import org.apache.shiro.util.Assert;
@@ -39,18 +39,19 @@ public class OrderService {
     /**
      * 创建订单
      *
-     * @param orderAddVO
+     * @param goodsId
+     * @param user
      * @return
      */
     @Transactional
-    public OrderVO createOrder(OrderAddVO orderAddVO) {
-        Goods goods = goodsService.findByGoodsId(orderAddVO.getGoodsId());
-
+    public OrderVO createOrder(Long goodsId, User user) {
+        Goods goods = goodsService.findByGoodsId(goodsId);
         Order order = new Order();
         order.setCreateTime(new Date());
         order.setStatus(0);
+        order.setUserId(user.getUserId());
         order.setTotalAmount(goods.getGoodsPrice());
-        order.setUserId(orderAddVO.getUserId());
+
         // 保存订单
         Long orderId = orderMapper.save(order);
 
@@ -61,11 +62,15 @@ public class OrderService {
         BeanUtils.copyProperties(orderItem, orderItemVO);
 
         OrderVO orderVO = new OrderVO();
-        BeanUtils.copyProperties(order, orderItem);
+        BeanUtils.copyProperties(order, orderVO);
         orderVO.setOrderItemVO(orderItemVO);
+        orderVO.setOrderId(orderId);
+        orderVO.setUsername(user.getUsername());
+        orderVO.setPhone(user.getPhone());
+        orderVO.setAddress(user.getAddress());
 
-        // 保存用户秒杀到的订单到redis中
-        redisTemplate.opsForValue().set(RedisPrefix.ORDER_PREFIX + order.getUserId() + "-" + order.getOrderId(), orderVO);
+        // 保存用户秒杀到的订单到 redis 缓存中
+        redisTemplate.opsForValue().set(RedisPrefix.ORDER_PREFIX + user.getUserId() + "-" + orderId, orderVO);
         return orderVO;
     }
 

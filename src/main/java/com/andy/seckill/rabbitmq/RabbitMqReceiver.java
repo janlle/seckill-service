@@ -68,10 +68,8 @@ public class RabbitMqReceiver {
             return;
         }
 
-        OrderAddVO orderAddVO = new OrderAddVO(user.getUserId(), goodsId);
-
         // 减库存，创建订单
-        secKillService.kill(orderAddVO);
+        secKillService.kill(goodsId, user);
     }
 
 

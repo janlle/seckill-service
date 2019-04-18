@@ -4,13 +4,13 @@ import com.andy.seckill.common.RedisPrefix;
 import com.andy.seckill.domain.User;
 import com.andy.seckill.rabbitmq.RabbitMqSender;
 import com.andy.seckill.rabbitmq.SecKillMessage;
-import com.andy.seckill.vo.OrderAddVO;
-import com.andy.seckill.vo.OrderItemVO;
 import com.andy.seckill.vo.OrderVO;
+import com.andy.seckill.vo.UserVO;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
@@ -42,16 +42,19 @@ public class SecKillService {
      * 1.判断商品库存
      * 2.调用订单service
      *
-     * @param orderAddVO
+     * @param goodsId
+     * @param user
      */
     @Transactional
-    public OrderVO kill(OrderAddVO orderAddVO) {
-        boolean flag = goodsService.inventoryStock(orderAddVO.getGoodsId());
-        if (flag) {
-            // 生成订单
-            return orderService.createOrder(orderAddVO);
-        } else {
-            return null;
+    public synchronized void kill(Long goodsId, User user) {
+        // 校验用户是否秒杀到同一款商品
+        OrderVO order = orderService.findByUserIdAndGoodsId(user.getUserId(), goodsId);
+        if (!ObjectUtils.isEmpty(order)) {
+            boolean flag = goodsService.inventoryStock(goodsId);
+            if (flag) {
+                // 创建订单
+                orderService.createOrder(goodsId, user);
+            }
         }
     }
 
@@ -76,9 +79,12 @@ public class SecKillService {
      * @param goodsId
      * @return
      */
-    public Long result(Long userId, Long goodsId) {
-
-        return null;
+    public OrderVO result(Long userId, Long goodsId) {
+        OrderVO orderVO = (OrderVO) redisTemplate.opsForValue().get(RedisPrefix.ORDER_PREFIX + userId + "-" + goodsId);
+        if (ObjectUtils.isEmpty(orderVO)) {
+            return null;
+        }
+        return orderVO;
     }
 
     /**
@@ -86,8 +92,12 @@ public class SecKillService {
      *
      * @param goodsId
      */
-    public void sendQueue(Long goodsId) {
-        SecKillMessage message = new SecKillMessage(new User(), goodsId);
+    public void sendQueue(Long goodsId, Long userId) {
+        User user = userService.findOne(userId);
+        if (ObjectUtils.isEmpty(user)) {
+            return;
+        }
+        SecKillMessage message = new SecKillMessage(user, goodsId);
         rabbitMQSender.send(message);
     }
 

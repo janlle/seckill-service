@@ -55,6 +55,10 @@ public class Result<T> implements Serializable {
         return new Result<>(ExceptionMessage.SUCCESS, data);
     }
 
+    public static <T> Result<T> success(String messages) {
+        return new Result<>(messages, 20000);
+    }
+
     public String getMessages() {
         return messages;
     }
