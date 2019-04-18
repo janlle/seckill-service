@@ -31,6 +31,20 @@ public class User implements Serializable {
 
     private boolean deleted;
 
+    public User() {
+    }
+
+    public User(String account, String username, String password, String address, Integer age, String phone, Date createTime, boolean deleted) {
+        this.account = account;
+        this.username = username;
+        this.password = password;
+        this.address = address;
+        this.age = age;
+        this.phone = phone;
+        this.createTime = createTime;
+        this.deleted = deleted;
+    }
+
     public Long getUserId() {
         return userId;
     }
