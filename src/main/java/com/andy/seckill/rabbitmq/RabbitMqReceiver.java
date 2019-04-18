@@ -50,7 +50,7 @@ public class RabbitMqReceiver {
      */
     @RabbitListener(queues = RabbitMqConfig.SEC_KILL_QUEUE)
     public void receive(String message) throws Exception {
-        log.info("receive message: {}" + message);
+        log.info("receive message: {}", message);
         SecKillMessage secKillMessage = objectMapper.readValue(message, SecKillMessage.class);
         User user = secKillMessage.getUser();
         Long goodsId = secKillMessage.getGoodsId();
@@ -68,7 +68,7 @@ public class RabbitMqReceiver {
             return;
         }
 
-        OrderAddVO orderAddVO = new OrderAddVO(user.getUserId(),goodsId);
+        OrderAddVO orderAddVO = new OrderAddVO(user.getUserId(), goodsId);
 
         // 减库存，创建订单
         secKillService.kill(orderAddVO);

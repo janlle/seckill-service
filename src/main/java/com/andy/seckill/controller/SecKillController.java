@@ -3,6 +3,7 @@ package com.andy.seckill.controller;
 
 import com.andy.seckill.common.RedisPrefix;
 import com.andy.seckill.common.Result;
+import com.andy.seckill.common.VersionFlag;
 import com.andy.seckill.domain.User;
 import com.andy.seckill.exception.ExceptionMessage;
 import com.andy.seckill.rabbitmq.RabbitMqSender;
@@ -10,6 +11,7 @@ import com.andy.seckill.service.GoodsService;
 import com.andy.seckill.service.OrderService;
 import com.andy.seckill.service.SecKillService;
 import com.andy.seckill.vo.GoodsListVO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
@@ -29,6 +31,7 @@ import java.util.UUID;
  * @author Leone
  * @since 2018-11-05
  **/
+@Slf4j
 @Controller
 @RequestMapping("/api")
 public class SecKillController implements InitializingBean {
@@ -48,6 +51,7 @@ public class SecKillController implements InitializingBean {
     @Resource
     private RabbitMqSender rabbitMQSender;
 
+    // 用来过滤商品是否存在或是否秒杀完毕
     private HashMap<Long, Boolean> localOverMap = new HashMap<>();
 
     /**
@@ -71,34 +75,37 @@ public class SecKillController implements InitializingBean {
     }
 
 
+    @VersionFlag(version = "v2.0")
+    @ResponseBody
     @PostMapping(value = "/{path}/kill")
-    public Result secKill(Model model, @RequestParam Long goodsId, @RequestParam Long userId, @PathVariable("path") String path) {
-        System.out.println(goodsId);
-        System.out.println(userId);
+    public Result secKill(Model model, @RequestParam(defaultValue = "1") Long goodsId, @RequestParam(defaultValue = "1") Long userId, @PathVariable("path") String path) {
         // 验证path
         boolean check = secKillService.checkPath(path);
         if (!check) {
             return Result.error(ExceptionMessage.SEC_KILL_PATH_FAIL);
         }
 
-        // 内存标记，减少redis访问
-        if (localOverMap.get(goodsId)) {
-            return Result.error(ExceptionMessage.GOODS_EMPTY);
+        // 验证商品是否在被秒杀，或商品是否被秒杀完
+        Boolean flag = localOverMap.get(goodsId);
+        if (!ObjectUtils.isEmpty(flag) && flag) {
+            log.info(ExceptionMessage.NOT_GOODS_KILL_OR_GOODS_EMPTY.getMessage());
+            return Result.error(ExceptionMessage.NOT_GOODS_KILL_OR_GOODS_EMPTY);
         }
 
-        // 预减库存
+        // 查询redis中商品库存
         Integer goodsCount = (Integer) redisTemplate.opsForValue().get(RedisPrefix.GOODS_PREFIX + goodsId);
 
-        if (!ObjectUtils.isEmpty(goodsCount) && goodsCount < 0) {
-            localOverMap.put(goodsId, true);
-            return Result.error(ExceptionMessage.GOODS_EMPTY);
+        // 在缓存中预减库存
+        if (!ObjectUtils.isEmpty(goodsCount)) {
+            if (goodsCount > 0) {
+                redisTemplate.opsForValue().set(RedisPrefix.GOODS_PREFIX + goodsId, goodsCount - 1);
+                log.info("预减redis中商品数量 goodsId: {}", goodsId);
+            } else {
+                localOverMap.put(goodsId, true);
+                log.info("设置内存缓存中商品标记为不可被秒杀 goodsId: {}", goodsId);
+                return Result.error(ExceptionMessage.GOODS_EMPTY);
+            }
         }
-
-        // 判断用户是否已经秒杀到了
-//        OrderVO order = orderService.findByUserIdAndGoodsId(userId, goodsId);
-//        if (order != null) {
-//            return Result.build(MessageEnum.ERROR);
-//        }
 
         // 进入消息队列排队中
         secKillService.sendQueue(goodsId);

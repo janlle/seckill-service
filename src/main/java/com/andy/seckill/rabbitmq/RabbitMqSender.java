@@ -34,7 +34,7 @@ public class RabbitMqSender {
         try {
             String msg = objectMapper.writeValueAsString(message);
             amqpTemplate.convertAndSend(RabbitMqConfig.SEC_KILL_QUEUE, msg);
-            log.info("send message: " + msg);
+            log.info("send message: {}", msg);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
