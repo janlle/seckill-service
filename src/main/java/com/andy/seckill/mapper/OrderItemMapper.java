@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.*;
 /**
  * <p>电商秒杀业务中每个用户一件商品只可以秒杀一次，所以不会存在一个用户有秒杀到两件商品的情况
  *
- * @author Leone
+ * @author leone
  * @since 2018-10-26
  **/
 @Mapper

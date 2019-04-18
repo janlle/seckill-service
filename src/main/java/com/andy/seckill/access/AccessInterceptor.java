@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * <p>
  *
- * @author Leone
+ * @author leone
  **/
 @Component
 public class AccessInterceptor extends HandlerInterceptorAdapter {

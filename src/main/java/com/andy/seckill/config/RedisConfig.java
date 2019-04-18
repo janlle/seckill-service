@@ -22,7 +22,7 @@ import java.util.Set;
 /**
  * <p> redis配置
  *
- * @author Leone
+ * @author leone
  * @since 2018-07-19
  **/
 @Configuration

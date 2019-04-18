@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * <p>
  *
- * @author Leone
+ * @author leone
  **/
 public class Result<T> implements Serializable {
 

@@ -1,7 +1,7 @@
 package com.andy.seckill.common;
 
 /**
- * @author Leone
+ * @author leone
  **/
 public interface RedisPrefix {
 

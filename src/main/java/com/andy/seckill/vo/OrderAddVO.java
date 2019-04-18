@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * <p>
  *
- * @author Leone
+ * @author leone
  * @since 2018-11-05
  **/
 public class OrderAddVO implements Serializable {

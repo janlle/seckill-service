@@ -14,4 +14,5 @@ import java.lang.annotation.*;
 public @interface VersionFlag {
 
     String version() default "0.0";
+
 }

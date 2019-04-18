@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * <p> 由于秒杀业务的订单和普通电商的订单表设计不同所以订单详情就只有一件商品
  *
- * @author Leone
+ * @author leone
  * @since 2018-10-26
  **/
 public class Order implements Serializable {

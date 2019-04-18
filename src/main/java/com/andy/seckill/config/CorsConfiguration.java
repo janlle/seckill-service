@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 /**
  * <p> 解决跨域问题
  *
- * @author Leone
+ * @author leone
  **/
 @Configuration
 public class CorsConfiguration extends WebMvcConfigurerAdapter {
