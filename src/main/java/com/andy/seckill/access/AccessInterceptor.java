@@ -1,7 +1,9 @@
 package com.andy.seckill.access;
 
 import com.andy.seckill.service.UserService;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.annotation.Resource;
@@ -13,11 +15,14 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Leone
  **/
-@Service
+@Component
 public class AccessInterceptor extends HandlerInterceptorAdapter {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private RedisTemplate<String, Integer> redisTemplate;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)

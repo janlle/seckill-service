@@ -5,9 +5,7 @@ import com.andy.seckill.common.RedisPrefix;
 import com.andy.seckill.common.Result;
 import com.andy.seckill.common.VersionFlag;
 import com.andy.seckill.exception.ExceptionMessage;
-import com.andy.seckill.rabbitmq.RabbitMqSender;
 import com.andy.seckill.service.GoodsService;
-import com.andy.seckill.service.OrderService;
 import com.andy.seckill.service.SecKillService;
 import com.andy.seckill.vo.GoodsListVO;
 import com.andy.seckill.vo.OrderVO;
@@ -91,7 +89,7 @@ public class SecKillController implements InitializingBean {
         // 在缓存中预减库存
         if (!ObjectUtils.isEmpty(goodsCount)) {
             if (goodsCount > 0) {
-                log.info("预减redis中商品数量 goodsId: {} goodsCount: {}", secKillVO.getGoodsId(), goodsCount - 1);
+                log.info("预减redis中商品数量 goodsId: {} userId: {} goodsCount: {}", secKillVO.getGoodsId(), secKillVO.getUserId(), goodsCount - 1);
                 redisTemplate.opsForValue().set(RedisPrefix.GOODS_PREFIX + secKillVO.getGoodsId(), goodsCount - 1);
             } else {
                 localOverMap.put(secKillVO.getGoodsId(), true);

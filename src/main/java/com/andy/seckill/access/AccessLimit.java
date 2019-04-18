@@ -1,7 +1,6 @@
 package com.andy.seckill.access;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -11,13 +10,17 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * @author Leone
  **/
-@Retention(RUNTIME)
-@Target(METHOD)
+@Inherited
+@Documented
+@Target({ElementType.FIELD,ElementType.TYPE, ElementType.METHOD})
+@Retention(RetentionPolicy.RUNTIME)
 public @interface AccessLimit {
 
+    //标识 时间段
     int seconds();
 
-    int maxCount();
+    //标识 指定sec时间段内的访问次数限制
+    int limit();
 
     boolean needLogin() default true;
 }

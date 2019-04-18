@@ -22,9 +22,9 @@ spring:
 # mysql 配置
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://39.108.125.41:3306/seckill?&useSSL=false
+    url: jdbc:mysql://localhost:3306/seckill?&useSSL=false
     username: root
-    password: cloud
+    password: root
 
 # thymeleaf 配置
   thymeleaf:
