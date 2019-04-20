@@ -115,7 +115,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>2.0.6.RELEASE</version>
                 <configuration>
-                    <mainClass>com.andy.seckill.SecKillApplication</mainClass>
+                    <mainClass>com.leone.seckill.SecKillApplication</mainClass>
                     <layout>ZIP</layout>
                 </configuration>
                 <executions>
