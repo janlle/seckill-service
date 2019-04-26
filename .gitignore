@@ -30,6 +30,4 @@ Thumbs.db
 
 # else
 .springBeans
-mvnw
-mvnw.cmd
 out
