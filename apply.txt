@@ -1,2 +1,6 @@
 commit1
 
+
+public void str() {
+
+}
