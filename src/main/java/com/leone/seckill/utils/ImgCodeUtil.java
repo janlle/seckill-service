@@ -46,8 +46,9 @@ public class ImgCodeUtil {
         try {
             File qrCodeFile = new File(qrCodePath);
             if (!qrCodeFile.exists()) {
-                // 创建二维码生成目录
-                qrCodeFile.mkdirs();
+                if (!qrCodeFile.mkdirs()) {
+                    throw new RuntimeException("create dirs failed");
+                }
             }
             File file = new File(qrCodePath + filename + ".png");
             if (!file.exists()) {
