@@ -1,3 +1,5 @@
+hosts: localhost
+
 spring:
   application:
     name: seckill-service
@@ -22,7 +24,7 @@ spring:
 # mysql 配置
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://39.108.125.41:3306/seckill?&useSSL=false
+    url: jdbc:mysql://${hosts}:3306/seckill?&useSSL=false
     username: root
     password: cloud
 
@@ -39,11 +41,11 @@ spring:
 
 # rabbitmq 配置
   rabbitmq:
-    host: 127.0.0.1
+    host: ${hosts}
     port: 5672
-    username: cloud
-    password: cloud
-    virtual-host: /mc
+    username: guest
+    password: guest
+    virtual-host: /
 
 logging:
   level:

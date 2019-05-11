@@ -1,0 +1,41 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.1.4.RELEASE'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+
+group 'com.leone.seckill'
+version '1.0.2-RELEASE'
+sourceCompatibility = '1.8'
+
+
+repositories {
+    mavenCentral()
+    maven {
+        url "http://maven.aliyun.com/nexus/content/groups/public/"
+    }
+}
+
+dependencies {
+
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.0.1'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    runtimeOnly 'mysql:mysql-connector-java:5.1.47'
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.8'
+    compile group: 'org.apache.shiro', name: 'shiro-spring', version: '1.4.1'
+    compile group: 'org.projectlombok', name: 'lombok', version: '1.16.20'
+    compile group: 'com.google.zxing', name: 'javase', version: '3.3.3'
+    annotationProcessor 'org.projectlombok:lombok:1.16.20'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.16.20'
+}
+
+
+
+
+
