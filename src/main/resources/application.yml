@@ -51,6 +51,13 @@ logging:
       apache:
         http: info
 
+# mybatis 分页插件
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
 # mybatis 配置
 mybatis:
   configuration:
