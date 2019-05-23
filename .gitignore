@@ -31,3 +31,5 @@ Thumbs.db
 # else
 .springBeans
 out
+.gradle
+
